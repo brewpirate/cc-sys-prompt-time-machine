@@ -20,25 +20,45 @@ const textB = ref<string | null>(null)
 const loading = ref(true)
 const loadError = ref<string | null>(null)
 
-const cell = (s: Side) => rows.value.find(r => r.t === s.t && r.v === s.v && r.m === s.m)
+// Index lookups are precomputed: the dropdowns render ~780 options, and anything per-option must be
+// O(1) — a linear scan there multiplied into millions of comparisons per re-render (measured as
+// visible input lag).
+const byKey = computed(() => {
+  const map = new Map<string, DiffRow>()
+  for (const r of rows.value) map.set(`${r.t}|${r.v}|${r.m}`, r)
+  return map
+})
+const versionsByTree = computed(() => {
+  const map = new Map<string, string[]>()
+  for (const t of ['sdk', 'cli']) {
+    map.set(t, [...new Set(rows.value.filter(r => r.t === t).map(r => r.v))].sort(compareVersions))
+  }
+  return map
+})
+const cell = (s: Side) => byKey.value.get(`${s.t}|${s.v}|${s.m}`)
 const cellA = computed(() => cell(a))
 const cellB = computed(() => cell(b))
 
 function versions(t: string): string[] {
-  return [...new Set(rows.value.filter(r => r.t === t).map(r => r.v))].sort(compareVersions)
+  return versionsByTree.value.get(t) ?? []
 }
 function models(s: Side): string[] {
   return [...new Set(rows.value.filter(r => r.t === s.t && r.v === s.v).map(r => r.m))].sort()
 }
 
-/** True when picking `v` on `side` would diff two identical prompts against the other side's cell —
- * such options are disabled, which turns the version dropdown into a map of where changes happened. */
-function identicalPick(side: Side, v: string, other: DiffRow | undefined): boolean {
-  if (v === side.v || other?.sha === undefined) return false
-  const candidate = rows.value.find(r => r.t === side.t && r.v === v && r.m === side.m)
-  if (candidate?.sha === undefined) return false
-  return normalized.value ? candidate.n === other.n : candidate.sha === other.sha
+/** Versions on `side` whose prompt is identical to the other side's cell — disabled in the dropdown,
+ * which turns it into a map of where changes happened. Recomputed only when a selection changes. */
+function identicalSet(side: Side, other: DiffRow | undefined): Set<string> {
+  const out = new Set<string>()
+  if (other?.sha === undefined) return out
+  for (const r of rows.value) {
+    if (r.t !== side.t || r.m !== side.m || r.sha === undefined || r.v === side.v) continue
+    if (normalized.value ? r.n === other.n : r.sha === other.sha) out.add(r.v)
+  }
+  return out
 }
+const identicalA = computed(() => identicalSet(a, cellB.value))
+const identicalB = computed(() => identicalSet(b, cellA.value))
 
 async function fetchText(sha: string): Promise<string> {
   const key = sha.slice(0, 12)
@@ -178,7 +198,7 @@ watch([a, b, normalized], load)
         <span class="label">A</span>
         <select v-model="a.t"><option value="sdk">sdk (-p)</option><option value="cli">cli (interactive)</option></select>
         <button @click="step(a, -1)" title="previous version">‹</button>
-        <select v-model="a.v"><option v-for="v in versions(a.t)" :key="v" :value="v" :disabled="identicalPick(a, v, cellB)">{{ v }}{{ identicalPick(a, v, cellB) ? ' (=B)' : '' }}</option></select>
+        <select v-model="a.v"><option v-for="v in versions(a.t)" :key="v" :value="v" :disabled="identicalA.has(v)">{{ v }}{{ identicalA.has(v) ? ' (=B)' : '' }}</option></select>
         <button @click="step(a, +1)" title="next version">›</button>
         <select v-model="a.m"><option v-for="m in models(a)" :key="m" :value="m">{{ m }}</option></select>
         <span v-if="versions(a.t).length === 0" class="warn">index has no {{ a.t }} rows — regenerate: bun run data</span>
@@ -187,7 +207,7 @@ watch([a, b, normalized], load)
         <span class="label">B</span>
         <select v-model="b.t"><option value="sdk">sdk (-p)</option><option value="cli">cli (interactive)</option></select>
         <button @click="step(b, -1)" title="previous version">‹</button>
-        <select v-model="b.v"><option v-for="v in versions(b.t)" :key="v" :value="v" :disabled="identicalPick(b, v, cellA)">{{ v }}{{ identicalPick(b, v, cellA) ? ' (=A)' : '' }}</option></select>
+        <select v-model="b.v"><option v-for="v in versions(b.t)" :key="v" :value="v" :disabled="identicalB.has(v)">{{ v }}{{ identicalB.has(v) ? ' (=A)' : '' }}</option></select>
         <button @click="step(b, +1)" title="next version">›</button>
         <select v-model="b.m"><option v-for="m in models(b)" :key="m" :value="m">{{ m }}</option></select>
         <span v-if="versions(b.t).length === 0" class="warn">index has no {{ b.t }} rows — regenerate: bun run data</span>
