@@ -13,9 +13,13 @@ import { mkdir, readdir, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { familyOf, normalizePrompt, sectionsOf, compareVersions, type DiffRow } from '../.vitepress/lib/prompt.ts'
 
+// Tree locations: the content sync moved to capture/{sdk,cli} (matching the instrument repo);
+// the old flat names are accepted as fallback so a mid-transition sync still builds.
+import { existsSync } from 'node:fs'
+const treeDir = (preferred: string, legacy: string) => (existsSync(join(preferred, 'manifest.json')) ? preferred : legacy)
 const TREES = [
-  { t: 'sdk' as const, dir: 'sdk-capture' },
-  { t: 'cli' as const, dir: 'cli-capture' },
+  { t: 'sdk' as const, dir: treeDir('capture/sdk', 'sdk-capture') },
+  { t: 'cli' as const, dir: treeDir('capture/cli', 'cli-capture') },
 ]
 const OUT = 'public/diff'
 
