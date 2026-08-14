@@ -76,7 +76,17 @@ for (const tree of TREES) {
 }
 
 rows.sort((a, b) => a.t.localeCompare(b.t) || compareVersions(a.v, b.v) || a.m.localeCompare(b.m))
-await Bun.write(join(OUT, 'index.json'), JSON.stringify({ generated: new Date().toISOString().slice(0, 10), rows }))
 
+// A tree with zero rows means its manifest was empty, missing, or mid-sync — an index published in
+// that state renders an inexplicably half-empty diff tool. Refuse loudly instead.
+for (const tree of TREES) {
+  const count = rows.filter(r => r.t === tree.t).length
+  if (count === 0) {
+    console.error(`site-data: FATAL — ${tree.dir}/manifest.json produced 0 rows (empty, missing, or mid-sync?). Not writing a lopsided index.`)
+    process.exit(1)
+  }
+}
+
+await Bun.write(join(OUT, 'index.json'), JSON.stringify({ generated: new Date().toISOString().slice(0, 10), rows }))
 const captured = rows.filter(r => r.s === 'ok').length
 console.error(`site-data: ${rows.length} cells (${captured} captured, ${rows.length - captured} excluded) -> ${files} distinct texts in ${OUT}`)

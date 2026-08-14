@@ -181,6 +181,7 @@ watch([a, b, normalized], load)
         <select v-model="a.v"><option v-for="v in versions(a.t)" :key="v" :value="v" :disabled="identicalPick(a, v, cellB)">{{ v }}{{ identicalPick(a, v, cellB) ? ' (=B)' : '' }}</option></select>
         <button @click="step(a, +1)" title="next version">›</button>
         <select v-model="a.m"><option v-for="m in models(a)" :key="m" :value="m">{{ m }}</option></select>
+        <span v-if="versions(a.t).length === 0" class="warn">index has no {{ a.t }} rows — regenerate: bun run data</span>
       </div>
       <div class="side">
         <span class="label">B</span>
@@ -189,6 +190,7 @@ watch([a, b, normalized], load)
         <select v-model="b.v"><option v-for="v in versions(b.t)" :key="v" :value="v" :disabled="identicalPick(b, v, cellA)">{{ v }}{{ identicalPick(b, v, cellA) ? ' (=A)' : '' }}</option></select>
         <button @click="step(b, +1)" title="next version">›</button>
         <select v-model="b.m"><option v-for="m in models(b)" :key="m" :value="m">{{ m }}</option></select>
+        <span v-if="versions(b.t).length === 0" class="warn">index has no {{ b.t }} rows — regenerate: bun run data</span>
       </div>
       <div class="controls">
         <button @click="swap">⇄ swap</button>
@@ -269,4 +271,5 @@ select, button { border: 1px solid var(--vp-c-divider); border-radius: 4px; padd
 .sxs :deep(ins) { background: var(--vp-c-green-3); color: var(--vp-c-white); text-decoration: none; }
 @media (max-width: 720px) { .sxs { grid-template-columns: 1fr; } }
 .identical { padding: 0.75rem; background: var(--vp-c-bg-soft); border-radius: 8px; }
+.warn { font-size: 0.8rem; color: var(--vp-c-danger-1); }
 </style>
