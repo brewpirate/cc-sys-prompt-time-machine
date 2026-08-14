@@ -12,15 +12,21 @@ are in `captures-cli/manifest.json` exclusion records.
 | CLI versions | published | unknown-model behavior | what the sweep sees |
 | --- | --- | --- | --- |
 | 1.0.0 – 1.0.2 | 2025-05-22 (GA day) | **remap** to the era default (`claude-opus-4-20250514`) | `model-remapped`, deterministic — every model, every retry |
-| 1.0.3 – 2.0.15 | 2025-05-23 → | **passthrough** — id sent verbatim | captured (today's API serves the modern id) |
+| 1.0.3 – 2.0.15 | 2025-05-23 → | **passthrough** — id sent verbatim; EXCEPT the opus-gate window below | captured (today's API serves the modern id) |
+| 1.0.17 – 1.0.44 | 2025-06-09 → ~2025-06-26 | **opus-family gate**: every `claude-opus-*` id remaps to `claude-sonnet-4-20250514`; non-opus ids (even future ones like `sonnet-5`) still pass through | `model-remapped` for opus ids only — deterministic, 28 versions × 5 ids, zero exceptions |
 | 2.0.17 – ~2.0.2x | 2025-10-15 → | **fallback** to `claude-haiku-4-5-20251001` | `model-remapped`, racy — retries sometimes win passthrough |
 | ~2.0.77 – current | 2026-01-06 → | **passthrough**, stable | captured |
 
-Two seams have dates; only one has a release note:
+Three seams have dates; only one has a release note:
 
 - **remap → passthrough, 1.0.2 → 1.0.3 (2025-05-22 → 2025-05-23)**: changelog-silent — the
   CHANGELOG jumps from 1.0.1 to 1.0.4. The launch-day substitution behavior lived under 24 hours,
   and the eight `model-remapped` exclusions naming `claude-opus-4-20250514` are its only record.
+- **opus gate, [1.0.17, 1.0.44] (2025-06-09 → ~2025-06-26)**: changelog-silent. Family-based
+  resolution, not catalog lookup — the CLI routes `claude-opus-*` through a plan/availability
+  fallback to sonnet-4 while shipping unknown non-opus ids verbatim. Ends by 1.0.50 (opus
+  passthrough resumes). Measured 2026-08-14: 139/140 opus cells in the window excluded with the
+  identical substitution target; the 5/10 partial-coverage signature of these versions is this gate.
 - **passthrough → haiku fallback, 2.0.15 → 2.0.17**: changelog-pinned — "Added Haiku 4.5 to model
   selector!" The fallback target the exclusions record is exactly the model that entry added.
   (Adjacent: 2.0.19 "Fixed a bug where Haiku was unnecessarily called in print mode" — same
