@@ -13,6 +13,7 @@ const rows = ref<DiffRow[]>([])
 const a = reactive<Side>({ t: 'sdk', v: '', m: 'claude-opus-5' })
 const b = reactive<Side>({ t: 'sdk', v: '', m: 'claude-opus-5' })
 const normalized = ref(true)
+const split = ref(true)
 const texts = new Map<string, string>()
 const textA = ref<string | null>(null)
 const textB = ref<string | null>(null)
@@ -50,6 +51,7 @@ function syncUrl() {
   q.set('a', `${a.t}/${a.v}/${a.m}`)
   q.set('b', `${b.t}/${b.v}/${b.m}`)
   if (!normalized.value) q.set('raw', '1')
+  if (!split.value) q.set('view', 'unified')
   history.replaceState(null, '', `?${q}`)
 }
 
@@ -64,6 +66,7 @@ function readUrl() {
     }
   }
   if (q.get('raw') === '1') normalized.value = false
+  if (q.get('view') === 'unified') split.value = false
 }
 
 function step(side: Side, delta: number) {
@@ -85,7 +88,7 @@ const view = computed(() => {
   if (textA.value === null || textB.value === null) return null
   const left = normalized.value ? normalizePrompt(textA.value) : textA.value
   const right = normalized.value ? normalizePrompt(textB.value) : textB.value
-  if (left === right) return { identical: true, sections: [], hunks: [] }
+  if (left === right) return { identical: true, sections: [], rows: [] }
 
   const sa = sectionsOf(left)
   const sb = sectionsOf(right)
@@ -96,24 +99,28 @@ const view = computed(() => {
   }
   for (const name of sb.keys()) if (!sa.has(name)) sections.push({ name, kind: 'added' })
 
-  // Unified hunks with word-level marks: pair each removed block with the added block that follows.
+  // Aligned change rows power both render modes: unified stacks del-then-ins, side-by-side puts
+  // them in one grid row. Word-level marks come from pairing each removed block with the added
+  // block that follows it.
   const parts = diffLines(left, right)
-  const hunks: { kind: string; html?: string; text?: string }[] = []
+  const rows: { kind: 'same' | 'change'; text?: string; left?: string | null; right?: string | null }[] = []
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i]
     if (!part.added && !part.removed) {
-      hunks.push({ kind: 'same', text: part.value })
+      rows.push({ kind: 'same', text: part.value })
     } else if (part.removed && parts[i + 1]?.added) {
       const words = diffWordsWithSpace(part.value, parts[i + 1].value)
       const del = words.filter(w => !w.added).map(w => (w.removed ? `<del>${esc(w.value)}</del>` : esc(w.value))).join('')
       const ins = words.filter(w => !w.removed).map(w => (w.added ? `<ins>${esc(w.value)}</ins>` : esc(w.value))).join('')
-      hunks.push({ kind: 'del', html: del }, { kind: 'ins', html: ins })
+      rows.push({ kind: 'change', left: del, right: ins })
       i++
+    } else if (part.removed) {
+      rows.push({ kind: 'change', left: esc(part.value), right: null })
     } else {
-      hunks.push({ kind: part.added ? 'ins' : 'del', html: esc(part.value) })
+      rows.push({ kind: 'change', left: null, right: esc(part.value) })
     }
   }
-  return { identical: false, sections, hunks }
+  return { identical: false, sections, rows }
 })
 
 function esc(text: string): string {
@@ -160,6 +167,7 @@ watch([a, b, normalized], load)
       <div class="controls">
         <button @click="swap">⇄ swap</button>
         <label><input type="checkbox" v-model="normalized" /> normalized (strip date/kernel confounds)</label>
+        <label><input type="checkbox" v-model="split" /> side-by-side</label>
       </div>
       <div class="presets">
         seams:
@@ -184,7 +192,15 @@ watch([a, b, normalized], load)
           <span v-for="s in view.sections" :key="s.name" class="chip" :class="s.kind">{{ s.kind }}: {{ s.name }}</span>
           <span v-if="view.sections.length === 0" class="chip changed">intra-section wording changes only</span>
         </div>
-        <pre class="diff"><template v-for="(h, i) in view.hunks" :key="i"><span v-if="h.kind === 'same'" class="same">{{ context(h.text!) }}</span><span v-else :class="h.kind" v-html="h.html"></span></template></pre>
+        <div v-if="split" class="sxs">
+          <template v-for="(r, i) in view.rows" :key="i">
+            <pre v-if="r.kind === 'same'" class="cell same">{{ context(r.text!) }}</pre>
+            <pre v-if="r.kind === 'same'" class="cell same">{{ context(r.text!) }}</pre>
+            <pre v-if="r.kind === 'change'" class="cell" :class="r.left !== null ? 'del' : 'empty'"><span v-if="r.left !== null" v-html="r.left"></span></pre>
+            <pre v-if="r.kind === 'change'" class="cell" :class="r.right !== null ? 'ins' : 'empty'"><span v-if="r.right !== null" v-html="r.right"></span></pre>
+          </template>
+        </div>
+        <pre v-else class="diff"><template v-for="(r, i) in view.rows" :key="i"><span v-if="r.kind === 'same'" class="same">{{ context(r.text!) }}</span><template v-else><span v-if="r.left !== null" class="del" v-html="r.left"></span><span v-if="r.right !== null" class="ins" v-html="r.right"></span></template></template></pre>
       </template>
     </div>
     <p v-else class="identical">
@@ -216,5 +232,14 @@ select, button { border: 1px solid var(--vp-c-divider); border-radius: 4px; padd
 .diff .ins { background: var(--vp-c-green-soft); display: block; }
 .diff :deep(del) { background: var(--vp-c-red-3); color: var(--vp-c-white); text-decoration: line-through; }
 .diff :deep(ins) { background: var(--vp-c-green-3); color: var(--vp-c-white); text-decoration: none; }
+.sxs { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.5rem; border: 1px solid var(--vp-c-divider); border-radius: 8px; padding: 0.5rem; }
+.sxs .cell { margin: 0; font-size: 0.78rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; padding: 0.1rem 0.4rem; border-radius: 3px; background: transparent; border: none; }
+.sxs .cell.same { opacity: 0.55; }
+.sxs .cell.del { background: var(--vp-c-red-soft); }
+.sxs .cell.ins { background: var(--vp-c-green-soft); }
+.sxs .cell.empty { background: repeating-linear-gradient(45deg, transparent, transparent 6px, var(--vp-c-bg-soft) 6px, var(--vp-c-bg-soft) 12px); }
+.sxs :deep(del) { background: var(--vp-c-red-3); color: var(--vp-c-white); text-decoration: line-through; }
+.sxs :deep(ins) { background: var(--vp-c-green-3); color: var(--vp-c-white); text-decoration: none; }
+@media (max-width: 720px) { .sxs { grid-template-columns: 1fr; } }
 .identical { padding: 0.75rem; background: var(--vp-c-bg-soft); border-radius: 8px; }
 </style>
