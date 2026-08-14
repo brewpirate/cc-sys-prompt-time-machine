@@ -36,6 +36,25 @@ export default withMermaid({
           return SAFE_TAG.test(content.trim()) ? content : md.utils.escapeHtml(content)
         }
       }
+
+      // The capture trees are srcExclude'd (6,900 prompt files are data, not pages), so relative
+      // links into them from the generated docs would 404 on the site. Rewrite them to GitHub blob
+      // URLs at build time — GitHub renders the .md captures and serves the .tools.json sidecars,
+      // which is the byte-exact evidence those links promise. The site's own view is the diff tool.
+      const REPO_BLOB = 'https://github.com/brewpirate/cc-sys-prompt-time-machine/blob/main/'
+      md.core.ruler.push('capture-tree-links', state => {
+        const walk = (tokens: typeof state.tokens) => {
+          for (const token of tokens) {
+            if (token.type === 'link_open') {
+              const href = token.attrGet('href') ?? ''
+              const match = href.match(/^(?:\.\.\/)*((?:cli|sdk)-capture\/.+)$/)
+              if (match) token.attrSet('href', REPO_BLOB + decodeURI(match[1]))
+            }
+            if (token.children) walk(token.children)
+          }
+        }
+        walk(state.tokens)
+      })
     },
   },
   themeConfig: {
