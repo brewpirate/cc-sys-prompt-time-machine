@@ -58,6 +58,7 @@ for (const tree of TREES) {
       }
       row.sha = run.promptSha256
       row.b = run.promptBytes
+      if (typeof run.toolCount === 'number') row.tc = run.toolCount
       const hasher = new Bun.CryptoHasher('sha256')
       hasher.update(normalizePrompt(prompt))
       row.n = hasher.digest('hex').slice(0, 12)
@@ -87,6 +88,32 @@ for (const tree of TREES) {
   }
 }
 
-await Bun.write(join(OUT, 'index.json'), JSON.stringify({ generated: new Date().toISOString().slice(0, 10), rows }))
+// Per-version changelog snippets for the diff page's range panel, extracted from the generated
+// version docs (their "## Changelog" section is the changelog cache rendered per version). The
+// full doc-version list rides in the index so the range walk covers versions between capture
+// samples, not just captured ones.
+await mkdir(join(OUT, 'changelog'), { recursive: true })
+const docVersions: string[] = []
+let changelogs = 0
+for (const entry of await readdir('versions')) {
+  if (!entry.endsWith('.md') || entry === 'README.md') continue
+  const version = entry.replace(/\.md$/, '')
+  docVersions.push(version)
+  const text = await Bun.file(join('versions', entry)).text()
+  const match = text.match(/\n## Changelog\n+([\s\S]*?)(?=\n## |$)/)
+  if (match === null) continue
+  const body = match[1].trim()
+  if (body.length === 0 || body.startsWith('_No changelog')) continue
+  await Bun.write(join(OUT, 'changelog', `${version}.txt`), body)
+  changelogs++
+}
+docVersions.sort(compareVersions)
+
+await Bun.write(
+  join(OUT, 'index.json'),
+  JSON.stringify({ generated: new Date().toISOString().slice(0, 10), versions: docVersions, rows }),
+)
 const captured = rows.filter(r => r.s === 'ok').length
-console.error(`site-data: ${rows.length} cells (${captured} captured, ${rows.length - captured} excluded) -> ${files} distinct texts in ${OUT}`)
+console.error(
+  `site-data: ${rows.length} cells (${captured} captured, ${rows.length - captured} excluded) -> ${files} distinct texts, ${changelogs} changelog snippets, ${docVersions.length} doc versions in ${OUT}`,
+)

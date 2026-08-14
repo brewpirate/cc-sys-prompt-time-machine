@@ -175,7 +175,9 @@ onMounted(async () => {
   try {
     const res = await fetch(withBase('/diff/index.json'))
     if (!res.ok) throw new Error(`${res.status} for diff/index.json`)
-    rows.value = (await res.json()).rows
+    const data = await res.json()
+    rows.value = data.rows
+    docVersions.value = data.versions ?? []
   } catch (error) {
     loadError.value = `Capture index failed to load (${error instanceof Error ? error.message : String(error)}). If this is a local checkout, generate the data first: bun run data`
     loading.value = false
@@ -187,49 +189,89 @@ onMounted(async () => {
   readUrl()
   loading.value = false
   await load()
+  await loadChangelog()
 })
 watch([a, b, normalized], load)
+
+// Changelog range panel: every release note in (A, B], walked over the COMPLETE doc-version list
+// (not just captured versions — a strided corpus must not hide the release notes between samples).
+const docVersions = ref<string[]>([])
+const changelog = ref<{ v: string; text: string }[]>([])
+const changelogTruncated = ref(false)
+const changelogLabel = ref('')
+const changelogCache = new Map<string, string | null>()
+
+function versionDocHref(v: string): string {
+  return withBase(`/versions/${v}.html`)
+}
+
+async function fetchChangelog(v: string): Promise<string | null> {
+  if (!changelogCache.has(v)) {
+    const res = await fetch(withBase(`/diff/changelog/${v}.txt`))
+    changelogCache.set(v, res.ok ? await res.text() : null)
+  }
+  return changelogCache.get(v) ?? null
+}
+
+async function loadChangelog() {
+  const list = docVersions.value
+  let lo = list.indexOf(a.v)
+  let hi = list.indexOf(b.v)
+  if (lo === -1 || hi === -1) {
+    changelog.value = []
+    return
+  }
+  if (lo > hi) [lo, hi] = [hi, lo]
+  const range = lo === hi ? [list[hi]] : list.slice(lo + 1, hi + 1)
+  changelogLabel.value = lo === hi ? `for ${list[hi]}` : `(${list[lo]} → ${list[hi]}]`
+  const capped = range.slice(-30)
+  changelogTruncated.value = range.length > capped.length
+  const entries = await Promise.all(capped.map(async v => ({ v, text: await fetchChangelog(v) })))
+  changelog.value = entries.filter((e): e is { v: string; text: string } => e.text !== null).reverse()
+}
+watch([a, b], loadChangelog)
 </script>
 
 <template>
   <div class="difftool" v-if="!loading">
-    <div class="pickers">
-      <div class="side">
-        <span class="label">A</span>
-        <select v-model="a.t"><option value="sdk">sdk (-p)</option><option value="cli">cli (interactive)</option></select>
-        <button @click="step(a, -1)" title="previous version">‹</button>
-        <select v-model="a.v"><option v-for="v in versions(a.t)" :key="v" :value="v" :disabled="identicalA.has(v)">{{ v }}{{ identicalA.has(v) ? ' (=B)' : '' }}</option></select>
-        <button @click="step(a, +1)" title="next version">›</button>
-        <select v-model="a.m"><option v-for="m in models(a)" :key="m" :value="m">{{ m }}</option></select>
-        <span v-if="versions(a.t).length === 0" class="warn">index has no {{ a.t }} rows — regenerate: bun run data</span>
-      </div>
-      <div class="side">
-        <span class="label">B</span>
-        <select v-model="b.t"><option value="sdk">sdk (-p)</option><option value="cli">cli (interactive)</option></select>
-        <button @click="step(b, -1)" title="previous version">‹</button>
-        <select v-model="b.v"><option v-for="v in versions(b.t)" :key="v" :value="v" :disabled="identicalB.has(v)">{{ v }}{{ identicalB.has(v) ? ' (=A)' : '' }}</option></select>
-        <button @click="step(b, +1)" title="next version">›</button>
-        <select v-model="b.m"><option v-for="m in models(b)" :key="m" :value="m">{{ m }}</option></select>
-        <span v-if="versions(b.t).length === 0" class="warn">index has no {{ b.t }} rows — regenerate: bun run data</span>
-      </div>
-      <div class="controls">
-        <button @click="swap">⇄ swap</button>
-        <label><input type="checkbox" v-model="normalized" /> normalized (strip date/kernel confounds)</label>
-        <label><input type="checkbox" v-model="split" /> side-by-side</label>
-      </div>
-      <div class="presets">
+    <div class="controls">
+      <button @click="swap">⇄ swap</button>
+      <label><input type="checkbox" v-model="normalized" /> normalized (strip date/kernel confounds)</label>
+      <label><input type="checkbox" v-model="split" /> side-by-side</label>
+      <span class="presets">
         seams:
         <a @click="preset({ t: 'cli', v: '1.0.2', m: 'claude-opus-4-5' }, { t: 'cli', v: '1.0.3', m: 'claude-opus-4-5' })">1.0.2→1.0.3</a>
         <a @click="preset({ t: 'sdk', v: '2.1.149', m: 'claude-opus-5' }, { t: 'sdk', v: '2.1.154', m: 'claude-opus-5' })">Harness rewrite</a>
         <a @click="preset({ t: 'cli', v: b.v, m: b.m }, { t: 'sdk', v: b.v, m: b.m })">cli↔sdk @ B</a>
-      </div>
+      </span>
     </div>
 
-    <div class="meta">
-      <div v-for="(c, i) in [cellA, cellB]" :key="i" class="metacard" :class="{ missing: !c || c.s !== 'ok' }">
-        <template v-if="c && c.s === 'ok'">{{ c.d }} · {{ c.b }} B · {{ c.f }} · <code>{{ c.sha?.slice(0, 8) }}</code></template>
-        <template v-else-if="c">excluded — {{ c.s }}<span v-if="c.x">: {{ c.x }}</span></template>
-        <template v-else>no capture for this cell</template>
+    <div class="headgrid">
+      <div class="col" v-for="(s, i) in [a, b]" :key="i">
+        <div class="side">
+          <span class="label">{{ i === 0 ? 'A' : 'B' }}</span>
+          <select v-model="s.t"><option value="sdk">sdk (-p)</option><option value="cli">cli (interactive)</option></select>
+          <button @click="step(s, -1)" title="previous version">‹</button>
+          <select v-model="s.v">
+            <option v-for="v in versions(s.t)" :key="v" :value="v" :disabled="(i === 0 ? identicalA : identicalB).has(v)">
+              {{ v }}{{ (i === 0 ? identicalA : identicalB).has(v) ? (i === 0 ? ' (=B)' : ' (=A)') : '' }}
+            </option>
+          </select>
+          <button @click="step(s, +1)" title="next version">›</button>
+          <select v-model="s.m"><option v-for="m in models(s)" :key="m" :value="m">{{ m }}</option></select>
+          <span v-if="versions(s.t).length === 0" class="warn">index has no {{ s.t }} rows — regenerate: bun run data</span>
+        </div>
+        <div class="metacard" :class="{ missing: !(i === 0 ? cellA : cellB) || (i === 0 ? cellA : cellB)?.s !== 'ok' }">
+          <template v-if="(i === 0 ? cellA : cellB)?.s === 'ok'">
+            <strong>v{{ s.v }}</strong> · {{ s.t === 'sdk' ? 'headless (-p)' : 'interactive TUI' }} · captured {{ (i === 0 ? cellA : cellB)!.d }}<br />
+            {{ (i === 0 ? cellA : cellB)!.f }} family · {{ (i === 0 ? cellA : cellB)!.b?.toLocaleString() }} B
+            <template v-if="(i === 0 ? cellA : cellB)!.tc !== undefined"> · {{ (i === 0 ? cellA : cellB)!.tc }} tools</template>
+            · sha <code>{{ (i === 0 ? cellA : cellB)!.sha?.slice(0, 8) }}</code>
+            · <a :href="versionDocHref(s.v)">version doc</a>
+          </template>
+          <template v-else-if="i === 0 ? cellA : cellB">excluded — {{ (i === 0 ? cellA : cellB)!.s }}<span v-if="(i === 0 ? cellA : cellB)!.x">: {{ (i === 0 ? cellA : cellB)!.x }}</span></template>
+          <template v-else>no capture for this cell</template>
+        </div>
       </div>
     </div>
 
@@ -250,6 +292,15 @@ watch([a, b, normalized], load)
         </div>
         <pre v-else class="diff"><template v-for="(r, i) in view.rows" :key="i"><span v-if="r.kind === 'same'" class="same">{{ context(r.text!) }}</span><template v-else><span v-if="r.left !== null" class="del" v-html="r.left"></span><span v-if="r.right !== null" class="ins" v-html="r.right"></span></template></template></pre>
       </template>
+
+      <div v-if="changelog.length > 0" class="changelog">
+        <h3>Changelog {{ changelogLabel }}</h3>
+        <div v-for="entry in changelog" :key="entry.v" class="clentry">
+          <a :href="versionDocHref(entry.v)"><strong>{{ entry.v }}</strong></a>
+          <pre>{{ entry.text }}</pre>
+        </div>
+        <p v-if="changelogTruncated" class="warn">range is long — showing the newest {{ changelog.length }} versions with entries; see the version index for the rest</p>
+      </div>
     </div>
     <p v-else class="identical">
       Select two captured cells to diff. Excluded cells show their exclusion cause instead — an honest hole, not a blank.
@@ -290,6 +341,15 @@ select, button { border: 1px solid var(--vp-c-divider); border-radius: 4px; padd
 .sxs :deep(del) { background: var(--vp-c-red-3); color: var(--vp-c-white); text-decoration: line-through; }
 .sxs :deep(ins) { background: var(--vp-c-green-3); color: var(--vp-c-white); text-decoration: none; }
 @media (max-width: 720px) { .sxs { grid-template-columns: 1fr; } }
+.headgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.75rem 0; }
+.headgrid .col { display: flex; flex-direction: column; gap: 0.4rem; }
+.headgrid .metacard { flex: 1; line-height: 1.6; }
+.headgrid .metacard a { text-decoration: underline; }
+.changelog { margin-top: 1.5rem; }
+.changelog h3 { margin: 0 0 0.5rem; font-size: 1rem; }
+.clentry { border-left: 3px solid var(--vp-c-divider); padding-left: 0.75rem; margin-bottom: 0.9rem; }
+.clentry pre { margin: 0.2rem 0 0; font-size: 0.8rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word; background: transparent; padding: 0; }
+@media (max-width: 720px) { .headgrid { grid-template-columns: 1fr; } }
 .identical { padding: 0.75rem; background: var(--vp-c-bg-soft); border-radius: 8px; }
 .warn { font-size: 0.8rem; color: var(--vp-c-danger-1); }
 </style>
