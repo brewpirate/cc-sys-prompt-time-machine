@@ -8,7 +8,7 @@ Which files are **generated** (edit the generator, never the file) and which are
 | tree / file | command | source of truth |
 | --- | --- | --- |
 | [`releases.md`](releases.md) | `bun run releases` | npm registry (versions, dates, deprecations, weekly downloads) |
-| [`tools.md`](tools.md) | `bun run tools` | `.tools.json` sidecars in `captures/` |
+| [`tools.md`](tools.md) | `bun run tools` | `.tools.json` sidecars in `capture/sdk/` |
 | [`models/`](models/) | `bun run models` | both capture trees + `corpus/versions.json` |
 | [`versions/`](versions/) | `bun run version-docs` | both capture trees + changelog cache + `corpus/versions.json` |
 
@@ -19,6 +19,7 @@ Which files are **generated** (edit the generator, never the file) and which are
 | [`prompt-evolution.md`](prompt-evolution.md) | the thematic chart: dated events, eras, findings, standing caveats — evidence-tiered |
 | [`prompt-ownership.md`](prompt-ownership.md) | the Safeguards ownership chain for the security clause |
 | [`methodology.md`](methodology.md) | how to trust (and distrust) this corpus: confound catalog, tiers, retraction log |
+| [`entrypoint-eras.md`](entrypoint-eras.md) | which models each CLI era's interactive mode can reach: the remap/passthrough/fallback seams, dated and wire-verified |
 | [`tldr/`](tldr/) | dated public-facing summaries, kept as written |
 | [`../corpus/README.md`](../corpus/README.md) | the research database: schema, design rules, query guide |
 
@@ -26,8 +27,8 @@ Which files are **generated** (edit the generator, never the file) and which are
 
 | tree | written by |
 | --- | --- |
-| `captures/` | the capture tool only (sdk-cli entrypoint) — byte-exact, sha-bound |
-| `captures-cli/` | the capture tool only (interactive entrypoint) — a **separate corpus**, never mixed with the above |
+| `capture/sdk/` | the capture tool only (sdk-cli entrypoint) — byte-exact, sha-bound |
+| `capture/cli/` | the capture tool only (interactive entrypoint) — a **separate corpus**, never mixed with the above |
 | `corpus/research.db` | `bun run corpus/ingest.ts` — a disposable index over the captures; delete and rebuild freely |
 
 ## Conventions (project-wide)

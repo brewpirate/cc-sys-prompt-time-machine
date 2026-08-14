@@ -6,7 +6,7 @@ Generated 2026-08-14 by `bun run tool-docs` — regenerate, don't edit. Spine: `
 | --- | --- |
 | first seen | 1.0.0 (2025-05-22) — present from the corpus start |
 | last seen | **removed** — last carried at 2.1.161 (2026-06-02) |
-| versions present | 328 of 389 |
+| versions present | 328 of 391 |
 | description rewrites | 3 · schema changes: 7 |
 
 Era colors: **amber** claude-code · **blue** sdk-legacy · **green** harness. Glyphs: ⚪ born · 🔴 removed · 🟠 rewrite/schema · 🔷 rename.

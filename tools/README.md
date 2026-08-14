@@ -1,6 +1,6 @@
 # Tool dossiers
 
-One biography per tool ever seen on the `claude-opus-5` sdk spine. Bold = active at 2.1.229.
+One biography per tool ever seen on the `claude-opus-5` sdk spine. Bold = active at 2.1.232.
 
 | tool | first seen | last seen | definition changes |
 | --- | --- | --- | ---: |

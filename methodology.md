@@ -40,7 +40,7 @@ Writing that prompt down as the model's prompt would be fabrication; this taxono
 Two captures are comparable only under identical conditions. These are join keys, not hopes:
 
 - **Entrypoint**: `-p` (sdk-cli) and interactive (cli) compose different documents. Separate trees
-  (`captures/`, `captures-cli/`), and `diff` refuses to compare across them without `--force`.
+  (`capture/sdk/`, `capture/cli/`), and `diff` refuses to compare across them without `--force`.
 - **Capture profile**: container vs host (kernel line), scratch vs real HOME (measured 2.3KB), frozen
   vs live feature flags, account connectors. The research database records these in `profiles` and
   cross-version queries join on `profile_id`.
@@ -71,7 +71,11 @@ measured, not estimated.
 | `WaitForMcpServers` startup race | 11 of 4,760 sidecars | would read as a tool appearing/vanishing across versions |
 | `cc_attestation` | flips at capture-session boundaries | looks exactly like a CLI-version signal; never date by it |
 | npm `time` map remembers unpublished versions | one ghost (2.1.88) | "was it published?" must be answered from the `versions` array |
-| interactive model-catalog remap | nondeterministic per run | a remap exclusion is retryable, not structural |
+| interactive model-catalog remap | deterministic on 1.0.0–1.0.2, racy on 2.0.17–2.0.2x | a remap exclusion is structural on launch-day builds, retryable in the fallback era (see entrypoint-eras.md) |
+| driver keystroke burst tripping paste heuristics | 0/10 → 10/10 at 2.0.1 | typed text flowed straight into Enter; old TUIs ate the submit — read as "era-unknown model spinner" until the bail screen showed the message still in the input box |
+| resend gate defused by boot warmup | swallowed submits sat the full timeout | "any proxy traffic" meant "submit worked" — but 2.0.x fires a promptless warmup at boot; the gate is now "prompt-bearing candidate seen" |
+| dying CLI outliving its kill | clobbered the next run's scratch-HOME seed | `tmux kill-session` returns before the process dies; its shutdown flush landed after the re-seed — fixed by waiting on the pane pid |
+| sandbox without account identity | intermittent login screens, 2.0.x-era worst | only credentials were mounted; without `oauthAccount`/`userID` seeded from `~/.claude.json`, old TUIs sometimes route to login despite valid tokens |
 | WAL persistence | 92% of an ingest silently lost | all corpus counts now read post-checkpoint from disk |
 
 The general lesson: **the instrument lies more often than the subject.** Most analysis effort in this
@@ -104,6 +108,9 @@ corrections are the strongest evidence the method works.
 | "LS died at 1.0.93" | 1.0.98 | stride gap |
 | "2.1.88 will appear as a dated hole" | unlisted — it says nothing | category error against the three-state rule, caught within hours |
 | security revert window (2.1.17,2.1.21] / restore (2.1.21,2.1.28] | exactly 2.1.20 → 2.1.23, two days, fleet-wide | bracket arithmetic on sparse samples |
+| "era-unknown model spinner" (pre-2.0.17 TUIs spin forever on unknown models) | the driver's Enter was eaten by paste heuristics; the message sat in the input box — 2.0.1 went 0/10 → 10/10 on the fix | instrument blamed the subject; the bail screen carried the proof all along |
+| "pre-2.0.17 cells are structurally uncapturable interactively" | passthrough works from 1.0.3 onward once the submit lands | overgeneralized from driver-induced stalls, falsified within the hour by own captures |
+| unavailability-era table (spin → passthrough by 2.0.9, per-era uniform) | outcomes were per-launch races plus a driver bug, not era-uniform behavior; the real eras are remap/passthrough/fallback (entrypoint-eras.md) | same trail contradicted it minutes later; retracted before it shipped |
 
 ## Verification habits
 

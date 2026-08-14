@@ -1,10 +1,10 @@
 # Claude Code tool evolution
 
 What the tool definitions the CLI sends — names, descriptions, input schemas — did across
-389 CLI versions (1.0.0 → 2.1.229), tracked separately from the
+391 CLI versions (1.0.0 → 2.1.232), tracked separately from the
 system prompt because they change independently of it.
 
-Generated 2026-08-13 by `bun run tools` — do not edit by hand; regenerate instead.
+Generated 2026-08-14 by `bun run tools` — do not edit by hand; regenerate instead.
 
 - **desc** revisions are description rewrites (prompt engineering); **schema** revisions are
   `input_schema` changes (interface changes). They are counted separately on purpose.
@@ -12,7 +12,7 @@ Generated 2026-08-13 by `bun run tools` — do not edit by hand; regenerate inst
   reported as one event, not as a death and a birth.
 - Timeline and lifespans follow `claude-opus-5`; the matrix shows where models diverge.
 
-## Current roster at 2.1.229
+## Current roster at 2.1.232
 
 | tool | fable-5 | haiku-4-5 | opus-4-5 | opus-4-6 | opus-4-7 | opus-4-8 | opus-5 | sonnet-4-5 | sonnet-4-6 | sonnet-5 | variants |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | ---: |
@@ -228,55 +228,55 @@ compared across the gap.
 - `2.1.226 → 2.1.227` schema: Agent, SendMessage · desc: Agent
 - `2.1.228 → 2.1.229` desc: Workflow
 
-179 of 388 transitions changed the toolset.
+179 of 390 transitions changed the toolset.
 
 ## Lifespans (claude-opus-5)
 
 | tool | first | last | versions | desc revisions | schema revisions | |
 | --- | --- | --- | ---: | ---: | ---: | --- |
-| Bash | 1.0.0 | 2.1.229 | 388 | 63 | 13 | active |
-| Edit | 1.0.0 | 2.1.229 | 388 | 6 | 4 | active |
+| Bash | 1.0.0 | 2.1.232 | 390 | 63 | 13 | active |
+| Edit | 1.0.0 | 2.1.232 | 390 | 6 | 4 | active |
 | Glob | 1.0.0 | 2.1.161 | 328 | 5 | 1 | **removed** |
 | Grep | 1.0.0 | 2.1.161 | 328 | 3 | 7 | **removed** |
 | LS | 1.0.0 | 1.0.96 | 94 | 0 | 0 | **removed** |
 | MultiEdit | 1.0.0 | 1.0.128 | 121 | 2 | 1 | **removed** |
-| NotebookEdit | 1.0.0 | 2.1.229 | 388 | 1 | 3 | active |
+| NotebookEdit | 1.0.0 | 2.1.232 | 390 | 1 | 3 | active |
 | NotebookRead | 1.0.0 | 1.0.67 | 66 | 0 | 1 | **removed** |
-| Read | 1.0.0 | 2.1.229 | 388 | 12 | 3 | active |
+| Read | 1.0.0 | 2.1.232 | 390 | 12 | 3 | active |
 | Task | 1.0.0 | 2.1.62 | 247 | 35 | 10 | **removed** |
 | TodoRead | 1.0.0 | 1.0.43 | 42 | 0 | 1 | **removed** |
 | TodoWrite | 1.0.0 | 2.1.141 | 310 | 6 | 4 | **removed** |
-| WebFetch | 1.0.0 | 2.1.229 | 388 | 7 | 1 | active |
-| WebSearch | 1.0.0 | 2.1.229 | 388 | 7 | 1 | active |
-| Write | 1.0.0 | 2.1.229 | 388 | 3 | 1 | active |
+| WebFetch | 1.0.0 | 2.1.232 | 390 | 7 | 1 | active |
+| WebSearch | 1.0.0 | 2.1.232 | 390 | 7 | 1 | active |
+| Write | 1.0.0 | 2.1.232 | 390 | 3 | 1 | active |
 | exit_plan_mode | 1.0.19 | 1.0.56 | 38 | 1 | 0 | **removed** |
 | ExitPlanMode | 1.0.57 | 2.1.186 | 294 | 8 | 11 | **removed** |
 | BashOutput | 1.0.72 | 2.0.64 | 108 | 2 | 0 | **removed** |
 | KillBash | 1.0.72 | 1.0.112 | 36 | 0 | 0 | **removed** |
 | KillShell | 1.0.113 | 2.1.18 | 103 | 1 | 1 | **removed** |
 | SlashCommand | 1.0.122 | 2.0.72 | 72 | 5 | 0 | **removed** |
-| Skill | 2.0.20 | 2.1.229 | 251 | 10 | 4 | active |
+| Skill | 2.0.20 | 2.1.232 | 253 | 10 | 4 | active |
 | EnterPlanMode | 2.0.51 | 2.1.186 | 185 | 4 | 1 | **removed** |
 | AgentOutputTool | 2.0.60 | 2.0.64 | 5 | 0 | 0 | **removed** |
-| TaskOutput | 2.0.65 | 2.1.229 | 210 | 3 | 1 | active |
+| TaskOutput | 2.0.65 | 2.1.232 | 212 | 3 | 1 | active |
 | AskUserQuestion | 2.0.71 | 2.1.186 | 165 | 4 | 4 | **removed** |
 | LSP | 2.0.74 | 2.0.77 | 4 | 0 | 1 | **removed** |
-| TaskStop | 2.1.19 | 2.1.229 | 179 | 1 | 1 | active |
-| EnterWorktree | 2.1.51 | 2.1.229 | 151 | 5 | 4 | active |
-| Agent | 2.1.63 | 2.1.229 | 141 | 17 | 10 | active |
+| TaskStop | 2.1.19 | 2.1.232 | 181 | 1 | 1 | active |
+| EnterWorktree | 2.1.51 | 2.1.232 | 153 | 5 | 4 | active |
+| Agent | 2.1.63 | 2.1.232 | 143 | 17 | 10 | active |
 | ToolSearch | 2.1.69 | 2.1.69 | 1 | 0 | 0 | **removed** |
-| CronCreate | 2.1.72 | 2.1.229 | 134 | 2 | 2 | active |
-| CronDelete | 2.1.72 | 2.1.229 | 134 | 1 | 0 | active |
-| CronList | 2.1.72 | 2.1.229 | 134 | 1 | 0 | active |
-| ExitWorktree | 2.1.72 | 2.1.229 | 134 | 0 | 0 | active |
-| ScheduleWakeup | 2.1.101 | 2.1.229 | 110 | 3 | 1 | active |
+| CronCreate | 2.1.72 | 2.1.232 | 136 | 2 | 2 | active |
+| CronDelete | 2.1.72 | 2.1.232 | 136 | 1 | 0 | active |
+| CronList | 2.1.72 | 2.1.232 | 136 | 1 | 0 | active |
+| ExitWorktree | 2.1.72 | 2.1.232 | 136 | 0 | 0 | active |
+| ScheduleWakeup | 2.1.101 | 2.1.232 | 112 | 3 | 1 | active |
 | ListMcpResourcesTool | 2.1.109 | 2.1.140 | 19 | 0 | 0 | **removed** |
 | ReadMcpResourceTool | 2.1.109 | 2.1.140 | 19 | 0 | 0 | **removed** |
-| TaskCreate | 2.1.142 | 2.1.229 | 78 | 0 | 0 | active |
-| TaskGet | 2.1.142 | 2.1.229 | 78 | 0 | 0 | active |
-| TaskList | 2.1.142 | 2.1.229 | 78 | 0 | 0 | active |
-| TaskUpdate | 2.1.142 | 2.1.229 | 78 | 0 | 0 | active |
-| Workflow | 2.1.154 | 2.1.229 | 67 | 8 | 0 | active |
-| SendMessage | 2.1.186 | 2.1.229 | 40 | 2 | 2 | active |
-| ReportFindings | 2.1.196 | 2.1.229 | 34 | 0 | 2 | active |
+| TaskCreate | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
+| TaskGet | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
+| TaskList | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
+| TaskUpdate | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
+| Workflow | 2.1.154 | 2.1.232 | 69 | 8 | 0 | active |
+| SendMessage | 2.1.186 | 2.1.232 | 42 | 2 | 2 | active |
+| ReportFindings | 2.1.196 | 2.1.232 | 36 | 0 | 2 | active |
 

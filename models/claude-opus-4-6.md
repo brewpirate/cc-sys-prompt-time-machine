@@ -4,27 +4,27 @@ Generated 2026-08-14 by `bun run models` — regenerate, don't edit. Spine: sdk-
 
 | | |
 | --- | --- |
-| captured versions | 389 (1.0.0 → 2.1.229) |
+| captured versions | 391 (1.0.0 → 2.1.232) |
 | launch | 2.1.31 (2026-02-04) — freeze-window analysis [V] |
 | current prompt | 27701B, 11 sections, family `sdk-legacy` |
-| prompt changes | 98 across 388 captured transitions (25%) |
+| prompt changes | 98 across 390 captured transitions (25%) |
 
 ## Entrypoint comparison — interactive (cli) vs headless (sdk-cli)
 
-261 versions captured in both trees (1.0.3 → 2.1.229), grouped into runs by family pair and section divergence:
+356 versions captured in both trees (1.0.3 → 2.1.232), grouped into runs by family pair and section divergence:
 
 | versions | dates | family cli / sdk | cli-only sections | sdk-only sections | Δ bytes (cli−sdk) |
 | --- | --- | --- | --- | --- | --- |
-| 1.0.3 – 1.0.85 | 2025-05-23 → 2025-08-19 | claude-code / claude-code | — | — | +0 |
-| 2.0.0 – 2.0.33 | 2025-09-29 → 2025-11-04 | claude-code / sdk-legacy | — | — | -5 |
+| 1.0.3 – 1.0.127 | 2025-05-23 → 2025-09-26 | claude-code / claude-code | — | — | +0 |
+| 1.0.128 – 2.0.33 | 2025-09-27 → 2025-11-04 | claude-code / sdk-legacy | — | — | -5 |
 | 2.0.34 – 2.0.70 | 2025-11-05 → 2025-12-15 | claude-code / sdk-legacy | `Asking questions as you work` | — | +293 … +417 |
 | 2.0.71 – 2.1.15 | 2025-12-16 → 2026-01-21 | claude-code / sdk-legacy | — | — | -5 |
 | 2.1.16 – 2.1.52 | 2026-01-22 → 2026-02-24 | claude-code / sdk-legacy | — | `Task Management` | -2457 … -2450 |
-| 2.1.53 – 2.1.229 | 2026-02-24 → 2026-08-12 | claude-code / sdk-legacy | — | — | -289 … +260 |
+| 2.1.53 – 2.1.232 | 2026-02-24 → 2026-08-13 | claude-code / sdk-legacy | — | — | -289 … +260 |
 
-**Parity verdict at 2.1.229: no doctrinal divergence.** Section sets identical; Δ +253B is the known surface delta (identity line, `!`-prefix tip, shell fact).
+**Parity verdict at 2.1.232: no doctrinal divergence.** Section sets identical; Δ +145B is the known surface delta (identity line, `!`-prefix tip, shell fact).
 
-Interactive holes — honest exclusions, not gaps: 1.0.0 (model-remapped → claude-opus-4-20250514), 1.0.1 (model-remapped → claude-opus-4-20250514), 1.0.2 (model-remapped → claude-opus-4-20250514), 1.0.17 (model-remapped → claude-sonnet-4-20250514), 1.0.18 (model-remapped → claude-sonnet-4-20250514), 1.0.19 (model-remapped → claude-sonnet-4-20250514), 1.0.20 (model-remapped → claude-sonnet-4-20250514), 1.0.21 (model-remapped → claude-sonnet-4-20250514), 1.0.22 (model-remapped → claude-sonnet-4-20250514), 1.0.23 (model-remapped → claude-sonnet-4-20250514), 1.0.24 (model-remapped → claude-sonnet-4-20250514), 1.0.25 (model-remapped → claude-sonnet-4-20250514), 1.0.26 (model-remapped → claude-sonnet-4-20250514), 1.0.27 (model-remapped → claude-sonnet-4-20250514), 1.0.28 (model-remapped → claude-sonnet-4-20250514), 1.0.29 (model-remapped → claude-sonnet-4-20250514), 1.0.30 (model-remapped → claude-sonnet-4-20250514), 1.0.31 (model-remapped → claude-sonnet-4-20250514), 1.0.32 (model-remapped → claude-sonnet-4-20250514), 1.0.33 (model-remapped → claude-sonnet-4-20250514), 1.0.34 (model-remapped → claude-sonnet-4-20250514), 1.0.35 (model-remapped → claude-sonnet-4-20250514), 1.0.36 (model-remapped → claude-sonnet-4-20250514), 1.0.37 (model-remapped → claude-sonnet-4-20250514), 1.0.38 (model-remapped → claude-sonnet-4-20250514), 1.0.39 (model-remapped → claude-sonnet-4-20250514), 1.0.40 (model-remapped → claude-sonnet-4-20250514), 1.0.41 (model-remapped → claude-sonnet-4-20250514), 1.0.42 (model-remapped → claude-sonnet-4-20250514), 1.0.43 (model-remapped → claude-sonnet-4-20250514), 1.0.44 (model-remapped → claude-sonnet-4-20250514), 1.0.45 (no-prompt-captured), 2.0.18 (model-remapped → claude-haiku-4-5-20251001), 2.0.19 (model-remapped → claude-haiku-4-5-20251001), 2.0.22 (model-remapped → claude-haiku-4-5-20251001), 2.0.24 (model-remapped → claude-haiku-4-5-20251001), 2.0.25 (model-remapped → claude-haiku-4-5-20251001), 2.0.26 (model-remapped → claude-haiku-4-5-20251001), 2.0.27 (model-remapped → claude-haiku-4-5-20251001), 2.0.63 (model-remapped → claude-sonnet-4-5-20250929), 2.1.54 (upstream-error), 2.1.55 (upstream-error), 2.1.59 (upstream-error), 2.1.62 (upstream-error), 2.1.63 (upstream-error), 2.1.66 (no-prompt-captured).
+Interactive holes — honest exclusions, not gaps: 0.2.9 (no-prompt-captured), 0.2.14 (no-prompt-captured), 1.0.0 (model-remapped → claude-opus-4-20250514), 1.0.1 (model-remapped → claude-opus-4-20250514), 1.0.2 (model-remapped → claude-opus-4-20250514), 1.0.17 (model-remapped → claude-sonnet-4-20250514), 1.0.18 (model-remapped → claude-sonnet-4-20250514), 1.0.19 (model-remapped → claude-sonnet-4-20250514), 1.0.20 (model-remapped → claude-sonnet-4-20250514), 1.0.21 (model-remapped → claude-sonnet-4-20250514), 1.0.22 (model-remapped → claude-sonnet-4-20250514), 1.0.23 (model-remapped → claude-sonnet-4-20250514), 1.0.24 (model-remapped → claude-sonnet-4-20250514), 1.0.25 (model-remapped → claude-sonnet-4-20250514), 1.0.26 (model-remapped → claude-sonnet-4-20250514), 1.0.27 (model-remapped → claude-sonnet-4-20250514), 1.0.28 (model-remapped → claude-sonnet-4-20250514), 1.0.29 (model-remapped → claude-sonnet-4-20250514), 1.0.30 (model-remapped → claude-sonnet-4-20250514), 1.0.31 (model-remapped → claude-sonnet-4-20250514), 1.0.32 (model-remapped → claude-sonnet-4-20250514), 1.0.33 (model-remapped → claude-sonnet-4-20250514), 1.0.34 (model-remapped → claude-sonnet-4-20250514), 1.0.35 (model-remapped → claude-sonnet-4-20250514), 1.0.36 (model-remapped → claude-sonnet-4-20250514), 1.0.37 (model-remapped → claude-sonnet-4-20250514), 1.0.38 (model-remapped → claude-sonnet-4-20250514), 1.0.39 (model-remapped → claude-sonnet-4-20250514), 1.0.40 (model-remapped → claude-sonnet-4-20250514), 1.0.41 (model-remapped → claude-sonnet-4-20250514), 1.0.42 (model-remapped → claude-sonnet-4-20250514), 1.0.43 (model-remapped → claude-sonnet-4-20250514), 1.0.44 (model-remapped → claude-sonnet-4-20250514), 1.0.45 (no-prompt-captured), 2.0.19 (model-remapped → claude-haiku-4-5-20251001), 2.0.25 (model-remapped → claude-haiku-4-5-20251001), 2.0.27 (model-remapped → claude-haiku-4-5-20251001).
 
 ## Prompt timeline
 
@@ -176,7 +176,7 @@ Full change-point table (the diagram shows structural events only; rewordings ap
 | 99/99 | 0 | 1.0.0 | 2.1.227 | Use the instructions below and the tools available to you to assist the user. |
 | 99/99 | 1 | 1.0.0 | 2.1.227 | When referencing specific functions or pieces of code include the pattern file_path:line_n… |
 
-## Fleet position at 2.1.229
+## Fleet position at 2.1.232
 
 - family: `sdk-legacy` (7 of 10 models)
 - sections ONLY this model has: none

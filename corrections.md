@@ -4,8 +4,8 @@ Every prohibition lineage on the `claude-opus-5` spine (sdk-cli, both instructio
 channels), chained by the same token-overlap rule as `lineage.ts` (similarity 0.6, gap
 tolerance 2). "Prohibition" is research.db's mechanical `has_prohibition` flag.
 
-Generated 2026-08-13 by `bun run corrections` — regenerate, don't edit. Spine coverage:
-389 versions (1.0.0 → 2.1.229).
+Generated 2026-08-14 by `bun run corrections` — regenerate, don't edit. Spine coverage:
+391 versions (1.0.0 → 2.1.232).
 
 Relation to the figures in prompt-evolution.md ("108 prohibitions across 113 versions"): those were
 sentence-level units on a 113-version sparse spine, system channel only. This ledger uses the
@@ -16,7 +16,7 @@ carrying roughly double the live prompt-channel corrections.
 ## Aggregates
 
 - **204 prohibition lineages ever** — 78 system-prompt, 126 tool-description
-- **40 live at 2.1.229** (13 system, 27 tool) · **164 retired (80%)**
+- **40 live at 2.1.232** (13 system, 27 tool) · **164 retired (80%)**
 - Corrections are mostly temporary, and they die in bulk at rewrites:
 
 | last seen at | retired | event |
@@ -31,50 +31,50 @@ carrying roughly double the live prompt-channel corrections.
 | 2.0.10 (2025-10-07) | 4 | killed by 2.0.11 — the Proactiveness-era clear-out |
 | 1.0.18 (2025-06-09) | 4 |  |
 
-## Live at 2.1.229 (40)
+## Live at 2.1.232 (40)
 
 | channel | born | days live | rewordings | current wording |
 | --- | --- | ---: | ---: | --- |
-| tool | 1.0.19 (2025-06-10) | 428 | 1 | - Never mark a task as completed if: |
-| tool | 2.1.53 (2026-02-24) | 169 | 2 | - IMPORTANT: Avoid using this tool to run `cat`, `head`, `tail`, `sed`, `awk`, or `echo` commands, unless expl… |
-| tool | 2.1.72 (2026-03-09) | 156 | 0 | - The directory you're in if EnterWorktree was never called |
-| tool | 2.1.72 (2026-03-09) | 156 | 0 | - Do NOT call this proactively — only when the user asks |
-| tool | 2.1.72 (2026-03-09) | 156 | 0 | ## Avoid the :00 and :30 minute marks when the task allows it |
-| tool | 2.1.72 (2026-03-09) | 156 | 0 |   "in an hour or so, remind me to..." → pick whatever minute you land on, don't round |
-| system | 2.1.74 (2026-03-11) | 154 | 2 | You have a persistent file-based memory at `/tmp/system-prompt-capture-home/.claude/projects/-tmp-system-promp… |
-| tool | 2.1.101 (2026-04-10) | 124 | 1 | Pass the same /loop prompt back via `prompt` each turn so the next firing repeats the task. For an autonomous … |
-| tool | 2.1.101 (2026-04-10) | 124 | 1 | - For local_agent tasks: use the Agent tool result directly. Do NOT Read the .output file — it is a symlink to… |
-| tool | 2.1.105 (2026-04-13) | 121 | 0 | - Never use this tool unless "worktree" is explicitly mentioned by the user or in CLAUDE.md / memory instructi… |
-| system | 2.1.111 (2026-04-16) | 118 | 0 |  - When the user types `/<skill-name>`, invoke it via Skill. Only use skills listed in the user-invocable skil… |
-| tool | 2.1.128 (2026-05-04) | 100 | 0 | - Do NOT re-read a file you just edited to verify — Edit/Write would have errored if the change failed, and th… |
-| system | 2.1.139 (2026-05-11) | 93 | 0 | When the conversation grows long, some or all of the current context is summarized; the summary, along with an… |
-| tool | 2.1.140 (2026-05-12) | 92 | 0 | Do NOT schedule a short-interval wakeup to poll for background work you started — when harness-tracked work fi… |
-| tool | 2.1.142 (2026-05-14) | 90 | 0 | - Check TaskList first to avoid creating duplicate tasks |
-| system | 2.1.154 (2026-05-28) | 76 | 0 |  - Tools run behind a user-selected permission mode; a denied call means the user declined it — adjust, don't … |
-| system | 2.1.154 (2026-05-28) | 76 | 0 | After writing the file, add a one-line pointer in `MEMORY.md` (`- [Title](file.md) — hook`). `MEMORY.md` is th… |
-| system | 2.1.154 (2026-05-28) | 76 | 1 | Before saving, check for an existing file that already covers it. Update that file rather than creating a dupl… |
-| tool | 2.1.154 (2026-05-28) | 76 | 2 | For any other task — even one that would clearly benefit from parallelism — do NOT call this tool. Use the Age… |
-| tool | 2.1.154 (2026-05-28) | 76 | 0 | When you do call it, the right move is often **hybrid**: scout inline first (list the files, find the channels… |
-| tool | 2.1.154 (2026-05-28) | 76 | 0 | Pass the script inline via `script` — do not Write it to a file first. Every invocation automatically persists… |
-| tool | 2.1.154 (2026-05-28) | 76 | 3 | - agent(prompt: string, opts?: {label?: string, phase?: string, schema?: object, model?: string, effort?: stri… |
-| tool | 2.1.154 (2026-05-28) | 76 | 0 | - parallel(thunks: Array<() => Promise<any>>): Promise<any[]> — run tasks concurrently. This is a BARRIER: awa… |
-| tool | 2.1.154 (2026-05-28) | 76 | 0 |   // dedup vs `seen`, NOT `confirmed` — else judge-rejected findings reappear every round and it never converg… |
-| tool | 2.1.157 (2026-05-29) | 75 | 0 | - Must not already be in a worktree session when creating a new worktree (`name`); switching into another exis… |
-| system | 2.1.169 (2026-06-08) | 65 | 0 | When you have enough information to act, act. Do not re-derive facts already established in the conversation, … |
-| tool | 2.1.186 (2026-06-22) | 51 | 2 | Your plain text output is NOT visible to other agents — to communicate, you MUST call this tool. Messages from… |
-| tool | 2.1.196 (2026-06-29) | 44 | 0 | Report code-review findings as a typed list so the host UI can render them. Use this only when the active code… |
-| tool | 2.1.198 (2026-07-01) | 42 | 0 | The tool result includes a runId. To resume after a pause, kill, or script edit, relaunch with Workflow({scrip… |
-| tool | 2.1.207 (2026-07-10) | 33 | 0 | This session's requests use a 1-hour Anthropic prompt-cache TTL, so effectively every allowed delay (the runti… |
-| tool | 2.1.207 (2026-07-10) | 33 | 0 | Don't think in cache windows — think about what you're actually waiting for. |
-| system | 2.1.208 (2026-07-13) | 30 | 0 | When you use a pronoun for someone — the user or anyone else you mention — and their pronouns haven't been sta… |
-| tool | 2.1.218 (2026-07-22) | 21 | 0 | A skill is a packaged set of instructions the user or project has set up for a particular kind of task (deploy… |
-| system | 2.1.219 (2026-07-24) | 19 | 0 | Do ordinary work as asked, acting on the actual request rather than on speculation about what lies behind it. … |
-| system | 2.1.219 (2026-07-24) | 19 | 0 | Avoid unnecessary or excessive self-correction. Only correct an earlier statement in your user-facing text whe… |
-| system | 2.1.219 (2026-07-24) | 19 | 0 | A follow-up question about your earlier work is not, by itself, a signal that you got something wrong — answer… |
-| system | 2.1.219 (2026-07-24) | 19 | 0 | Do not call the AgentTool unless the user requested it |
-| system | 2.1.219 (2026-07-24) | 19 | 0 | Do not use workflows or deep-research unless the user requested it |
-| tool | 2.1.219 (2026-07-24) | 19 | 0 | For a single-fact lookup where you already know the file, symbol, or value, search directly. Once you've deleg… |
-| tool | 2.1.227 (2026-08-10) | 2 | 0 | - Subagents run in the background by default; you'll be notified when one completes. Pass `run_in_background: … |
+| tool | 1.0.19 (2025-06-10) | 429 | 1 | - Never mark a task as completed if: |
+| tool | 2.1.53 (2026-02-24) | 170 | 2 | - IMPORTANT: Avoid using this tool to run `cat`, `head`, `tail`, `sed`, `awk`, or `echo` commands, unless expl… |
+| tool | 2.1.72 (2026-03-09) | 157 | 0 | - The directory you're in if EnterWorktree was never called |
+| tool | 2.1.72 (2026-03-09) | 157 | 0 | - Do NOT call this proactively — only when the user asks |
+| tool | 2.1.72 (2026-03-09) | 157 | 0 | ## Avoid the :00 and :30 minute marks when the task allows it |
+| tool | 2.1.72 (2026-03-09) | 157 | 0 |   "in an hour or so, remind me to..." → pick whatever minute you land on, don't round |
+| system | 2.1.74 (2026-03-11) | 155 | 2 | You have a persistent file-based memory at `/tmp/system-prompt-capture-home/.claude/projects/-tmp-system-promp… |
+| tool | 2.1.101 (2026-04-10) | 125 | 1 | Pass the same /loop prompt back via `prompt` each turn so the next firing repeats the task. For an autonomous … |
+| tool | 2.1.101 (2026-04-10) | 125 | 1 | - For local_agent tasks: use the Agent tool result directly. Do NOT Read the .output file — it is a symlink to… |
+| tool | 2.1.105 (2026-04-13) | 122 | 0 | - Never use this tool unless "worktree" is explicitly mentioned by the user or in CLAUDE.md / memory instructi… |
+| system | 2.1.111 (2026-04-16) | 119 | 0 |  - When the user types `/<skill-name>`, invoke it via Skill. Only use skills listed in the user-invocable skil… |
+| tool | 2.1.128 (2026-05-04) | 101 | 0 | - Do NOT re-read a file you just edited to verify — Edit/Write would have errored if the change failed, and th… |
+| system | 2.1.139 (2026-05-11) | 94 | 0 | When the conversation grows long, some or all of the current context is summarized; the summary, along with an… |
+| tool | 2.1.140 (2026-05-12) | 93 | 0 | Do NOT schedule a short-interval wakeup to poll for background work you started — when harness-tracked work fi… |
+| tool | 2.1.142 (2026-05-14) | 91 | 0 | - Check TaskList first to avoid creating duplicate tasks |
+| system | 2.1.154 (2026-05-28) | 77 | 0 |  - Tools run behind a user-selected permission mode; a denied call means the user declined it — adjust, don't … |
+| system | 2.1.154 (2026-05-28) | 77 | 0 | After writing the file, add a one-line pointer in `MEMORY.md` (`- [Title](file.md) — hook`). `MEMORY.md` is th… |
+| system | 2.1.154 (2026-05-28) | 77 | 1 | Before saving, check for an existing file that already covers it. Update that file rather than creating a dupl… |
+| tool | 2.1.154 (2026-05-28) | 77 | 2 | For any other task — even one that would clearly benefit from parallelism — do NOT call this tool. Use the Age… |
+| tool | 2.1.154 (2026-05-28) | 77 | 0 | When you do call it, the right move is often **hybrid**: scout inline first (list the files, find the channels… |
+| tool | 2.1.154 (2026-05-28) | 77 | 0 | Pass the script inline via `script` — do not Write it to a file first. Every invocation automatically persists… |
+| tool | 2.1.154 (2026-05-28) | 77 | 3 | - agent(prompt: string, opts?: {label?: string, phase?: string, schema?: object, model?: string, effort?: stri… |
+| tool | 2.1.154 (2026-05-28) | 77 | 0 | - parallel(thunks: Array<() => Promise<any>>): Promise<any[]> — run tasks concurrently. This is a BARRIER: awa… |
+| tool | 2.1.154 (2026-05-28) | 77 | 0 |   // dedup vs `seen`, NOT `confirmed` — else judge-rejected findings reappear every round and it never converg… |
+| tool | 2.1.157 (2026-05-29) | 76 | 0 | - Must not already be in a worktree session when creating a new worktree (`name`); switching into another exis… |
+| system | 2.1.169 (2026-06-08) | 66 | 0 | When you have enough information to act, act. Do not re-derive facts already established in the conversation, … |
+| tool | 2.1.186 (2026-06-22) | 52 | 2 | Your plain text output is NOT visible to other agents — to communicate, you MUST call this tool. Messages from… |
+| tool | 2.1.196 (2026-06-29) | 45 | 0 | Report code-review findings as a typed list so the host UI can render them. Use this only when the active code… |
+| tool | 2.1.198 (2026-07-01) | 43 | 0 | The tool result includes a runId. To resume after a pause, kill, or script edit, relaunch with Workflow({scrip… |
+| tool | 2.1.207 (2026-07-10) | 34 | 0 | This session's requests use a 1-hour Anthropic prompt-cache TTL, so effectively every allowed delay (the runti… |
+| tool | 2.1.207 (2026-07-10) | 34 | 0 | Don't think in cache windows — think about what you're actually waiting for. |
+| system | 2.1.208 (2026-07-13) | 31 | 0 | When you use a pronoun for someone — the user or anyone else you mention — and their pronouns haven't been sta… |
+| tool | 2.1.218 (2026-07-22) | 22 | 0 | A skill is a packaged set of instructions the user or project has set up for a particular kind of task (deploy… |
+| system | 2.1.219 (2026-07-24) | 20 | 0 | Do ordinary work as asked, acting on the actual request rather than on speculation about what lies behind it. … |
+| system | 2.1.219 (2026-07-24) | 20 | 0 | Avoid unnecessary or excessive self-correction. Only correct an earlier statement in your user-facing text whe… |
+| system | 2.1.219 (2026-07-24) | 20 | 0 | A follow-up question about your earlier work is not, by itself, a signal that you got something wrong — answer… |
+| system | 2.1.219 (2026-07-24) | 20 | 0 | Do not call the AgentTool unless the user requested it |
+| system | 2.1.219 (2026-07-24) | 20 | 0 | Do not use workflows or deep-research unless the user requested it |
+| tool | 2.1.219 (2026-07-24) | 20 | 0 | For a single-fact lookup where you already know the file, symbol, or value, search directly. Once you've deleg… |
+| tool | 2.1.227 (2026-08-10) | 3 | 0 | - Subagents run in the background by default; you'll be notified when one completes. Pass `run_in_background: … |
 
 ## Retired (164)
 

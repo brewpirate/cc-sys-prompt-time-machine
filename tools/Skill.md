@@ -5,8 +5,8 @@ Generated 2026-08-14 by `bun run tool-docs` — regenerate, don't edit. Spine: `
 | | |
 | --- | --- |
 | first seen | 2.0.20 (2025-10-16) |
-| status | **active** at 2.1.229 |
-| versions present | 251 of 389 |
+| status | **active** at 2.1.232 |
+| versions present | 253 of 391 |
 | description rewrites | 10 · schema changes: 4 |
 
 Era colors: **amber** claude-code · **blue** sdk-legacy · **green** harness. Glyphs: ⚪ born · 🔴 removed · 🟠 rewrite/schema · 🔷 rename.
@@ -52,7 +52,7 @@ timeline TD
 | 2.1.216 | 2026-07-20 | description reworded (-463B) |
 | 2.1.218 | 2026-07-22 | description reworded (+175B) |
 
-## Variants at 2.1.229
+## Variants at 2.1.232
 
 One definition across all 10 models.
 

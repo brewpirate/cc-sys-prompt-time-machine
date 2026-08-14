@@ -4,7 +4,7 @@ Seven model launches, side by side. Freeze verdicts are the closed freeze progra
 (normalized shas; individually the long windows are marginal — **the replication is the
 evidence**, joint p≈0.003). Launch-day deltas are computed fresh from the captures.
 
-Generated 2026-08-13 by `bun run launches` — regenerate, don't edit.
+Generated 2026-08-14 by `bun run launches` — regenerate, don't edit.
 
 | model | launch build | freeze window | freeze verdict | own-prompt patch at launch | blast shape | tool churn |
 | --- | --- | --- | --- | --- | --- | --- |

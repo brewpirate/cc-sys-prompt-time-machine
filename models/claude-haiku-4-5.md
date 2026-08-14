@@ -4,19 +4,19 @@ Generated 2026-08-14 by `bun run models` — regenerate, don't edit. Spine: sdk-
 
 | | |
 | --- | --- |
-| captured versions | 389 (1.0.0 → 2.1.229) |
+| captured versions | 391 (1.0.0 → 2.1.232) |
 | launch | predates the corpus (already present at 1.0.0) |
 | current prompt | 27708B, 11 sections, family `sdk-legacy` |
-| prompt changes | 96 across 388 captured transitions (25%) |
+| prompt changes | 96 across 390 captured transitions (25%) |
 
 ## Entrypoint comparison — interactive (cli) vs headless (sdk-cli)
 
-299 versions captured in both trees (1.0.3 → 2.1.229), grouped into runs by family pair and section divergence:
+387 versions captured in both trees (1.0.3 → 2.1.232), grouped into runs by family pair and section divergence:
 
 | versions | dates | family cli / sdk | cli-only sections | sdk-only sections | Δ bytes (cli−sdk) |
 | --- | --- | --- | --- | --- | --- |
-| 1.0.3 – 1.0.44 | 2025-05-23 → 2025-07-07 | claude-code / claude-code | — | — | +0 |
-| 2.0.0 – 2.0.17 | 2025-09-29 → 2025-10-15 | claude-code / sdk-legacy | — | — | -5 |
+| 1.0.3 – 1.0.127 | 2025-05-23 → 2025-09-26 | claude-code / claude-code | — | — | +0 |
+| 1.0.128 – 2.0.17 | 2025-09-27 → 2025-10-15 | claude-code / sdk-legacy | — | — | -5 |
 | 2.0.18 | 2025-10-15 | claude-code / sdk-legacy | — | `Tone and style`, `Professional objectivity`, `Task Management`, `Doing tasks`, `Tool usage policy`, `Code References` | -8139 |
 | 2.0.19 | 2025-10-15 | claude-code / sdk-legacy | — | — | -5 |
 | 2.0.20 | 2025-10-16 | claude-code / sdk-legacy | — | `Tone and style`, `Professional objectivity`, `Task Management`, `Doing tasks`, `Tool usage policy`, `Code References` | -8139 |
@@ -28,11 +28,11 @@ Generated 2026-08-14 by `bun run models` — regenerate, don't edit. Spine: sdk-
 | 2.0.34 – 2.0.70 | 2025-11-05 → 2025-12-15 | claude-code / sdk-legacy | `Asking questions as you work` | — | +293 … +417 |
 | 2.0.71 – 2.1.15 | 2025-12-16 → 2026-01-21 | claude-code / sdk-legacy | — | — | -5 |
 | 2.1.16 – 2.1.52 | 2026-01-22 → 2026-02-24 | claude-code / sdk-legacy | — | `Task Management` | -2457 … -2450 |
-| 2.1.53 – 2.1.229 | 2026-02-24 → 2026-08-12 | claude-code / sdk-legacy | — | — | -289 … +260 |
+| 2.1.53 – 2.1.232 | 2026-02-24 → 2026-08-13 | claude-code / sdk-legacy | — | — | -289 … +260 |
 
-**Parity verdict at 2.1.229: no doctrinal divergence.** Section sets identical; Δ +253B is the known surface delta (identity line, `!`-prefix tip, shell fact).
+**Parity verdict at 2.1.232: no doctrinal divergence.** Section sets identical; Δ +145B is the known surface delta (identity line, `!`-prefix tip, shell fact).
 
-Interactive holes — honest exclusions, not gaps: 1.0.0 (model-remapped → claude-opus-4-20250514), 2.0.63 (model-remapped → claude-sonnet-4-5-20250929).
+Interactive holes — honest exclusions, not gaps: 0.2.9 (no-prompt-captured), 1.0.0 (model-remapped → claude-opus-4-20250514), 1.0.45 (no-prompt-captured).
 
 ## Prompt timeline
 
@@ -182,7 +182,7 @@ Full change-point table (the diagram shows structural events only; rewordings ap
 | 97/97 | 0 | 1.0.0 | 2.1.227 | Use the instructions below and the tools available to you to assist the user. |
 | 97/97 | 1 | 1.0.0 | 2.1.227 | When referencing specific functions or pieces of code include the pattern file_path:line_n… |
 
-## Fleet position at 2.1.229
+## Fleet position at 2.1.232
 
 - family: `sdk-legacy` (7 of 10 models)
 - sections ONLY this model has: none

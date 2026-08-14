@@ -5,6 +5,8 @@ version; quiet rows are releases that shipped no instruction changes at all.
 
 | version | published | prompt changes | tools touched | launch |
 | --- | --- | ---: | --- | --- |
+| [2.1.232](2.1.232.md) | 2026-08-13 |  |  |  |
+| [2.1.231](2.1.231.md) | 2026-08-13 |  |  |  |
 | **[2.1.229](2.1.229.md)** | 2026-08-12 |  | Workflow |  |
 | [2.1.228](2.1.228.md) | 2026-08-11 |  |  |  |
 | **[2.1.227](2.1.227.md)** | 2026-08-10 | 10 | Agent, SendMessage |  |
