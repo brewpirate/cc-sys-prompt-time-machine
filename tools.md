@@ -16,30 +16,30 @@ Generated 2026-08-14 by `bun run tools` — do not edit by hand; regenerate inst
 
 | tool | fable-5 | haiku-4-5 | opus-4-5 | opus-4-6 | opus-4-7 | opus-4-8 | opus-5 | sonnet-4-5 | sonnet-4-6 | sonnet-5 | variants |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | ---: |
-| Agent | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **3** |
-| Bash | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **10** |
-| CronCreate | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| CronDelete | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| CronList | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| Edit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
-| EnterWorktree | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| ExitWorktree | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| NotebookEdit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| Read | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
-| ReportFindings | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| ScheduleWakeup | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| SendMessage | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| Skill | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| TaskCreate | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| TaskGet | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| TaskList | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| TaskOutput | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| TaskStop | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| TaskUpdate | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| WebFetch | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
-| WebSearch | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
-| Workflow | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
-| Write | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
+| [Agent](tools/Agent.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **3** |
+| [Bash](tools/Bash.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **10** |
+| [CronCreate](tools/CronCreate.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [CronDelete](tools/CronDelete.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [CronList](tools/CronList.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [Edit](tools/Edit.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
+| [EnterWorktree](tools/EnterWorktree.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [ExitWorktree](tools/ExitWorktree.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [NotebookEdit](tools/NotebookEdit.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [Read](tools/Read.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
+| [ReportFindings](tools/ReportFindings.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [ScheduleWakeup](tools/ScheduleWakeup.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [SendMessage](tools/SendMessage.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [Skill](tools/Skill.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [TaskCreate](tools/TaskCreate.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [TaskGet](tools/TaskGet.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [TaskList](tools/TaskList.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [TaskOutput](tools/TaskOutput.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [TaskStop](tools/TaskStop.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [TaskUpdate](tools/TaskUpdate.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [WebFetch](tools/WebFetch.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
+| [WebSearch](tools/WebSearch.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
+| [Workflow](tools/Workflow.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1 |
+| [Write](tools/Write.md) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | **2** |
 
 24 tools across 10 models: 24 on every model, 0 model-specific by presence — but 7 diverge by DEFINITION (**variants** = distinct description+schema combinations across models).
 
@@ -234,49 +234,49 @@ compared across the gap.
 
 | tool | first | last | versions | desc revisions | schema revisions | |
 | --- | --- | --- | ---: | ---: | ---: | --- |
-| Bash | 1.0.0 | 2.1.232 | 390 | 63 | 13 | active |
-| Edit | 1.0.0 | 2.1.232 | 390 | 6 | 4 | active |
-| Glob | 1.0.0 | 2.1.161 | 328 | 5 | 1 | **removed** |
-| Grep | 1.0.0 | 2.1.161 | 328 | 3 | 7 | **removed** |
-| LS | 1.0.0 | 1.0.96 | 94 | 0 | 0 | **removed** |
-| MultiEdit | 1.0.0 | 1.0.128 | 121 | 2 | 1 | **removed** |
-| NotebookEdit | 1.0.0 | 2.1.232 | 390 | 1 | 3 | active |
-| NotebookRead | 1.0.0 | 1.0.67 | 66 | 0 | 1 | **removed** |
-| Read | 1.0.0 | 2.1.232 | 390 | 12 | 3 | active |
-| Task | 1.0.0 | 2.1.62 | 247 | 35 | 10 | **removed** |
-| TodoRead | 1.0.0 | 1.0.43 | 42 | 0 | 1 | **removed** |
-| TodoWrite | 1.0.0 | 2.1.141 | 310 | 6 | 4 | **removed** |
-| WebFetch | 1.0.0 | 2.1.232 | 390 | 7 | 1 | active |
-| WebSearch | 1.0.0 | 2.1.232 | 390 | 7 | 1 | active |
-| Write | 1.0.0 | 2.1.232 | 390 | 3 | 1 | active |
-| exit_plan_mode | 1.0.19 | 1.0.56 | 38 | 1 | 0 | **removed** |
-| ExitPlanMode | 1.0.57 | 2.1.186 | 294 | 8 | 11 | **removed** |
-| BashOutput | 1.0.72 | 2.0.64 | 108 | 2 | 0 | **removed** |
-| KillBash | 1.0.72 | 1.0.112 | 36 | 0 | 0 | **removed** |
-| KillShell | 1.0.113 | 2.1.18 | 103 | 1 | 1 | **removed** |
-| SlashCommand | 1.0.122 | 2.0.72 | 72 | 5 | 0 | **removed** |
-| Skill | 2.0.20 | 2.1.232 | 253 | 10 | 4 | active |
-| EnterPlanMode | 2.0.51 | 2.1.186 | 185 | 4 | 1 | **removed** |
-| AgentOutputTool | 2.0.60 | 2.0.64 | 5 | 0 | 0 | **removed** |
-| TaskOutput | 2.0.65 | 2.1.232 | 212 | 3 | 1 | active |
-| AskUserQuestion | 2.0.71 | 2.1.186 | 165 | 4 | 4 | **removed** |
-| LSP | 2.0.74 | 2.0.77 | 4 | 0 | 1 | **removed** |
-| TaskStop | 2.1.19 | 2.1.232 | 181 | 1 | 1 | active |
-| EnterWorktree | 2.1.51 | 2.1.232 | 153 | 5 | 4 | active |
-| Agent | 2.1.63 | 2.1.232 | 143 | 17 | 10 | active |
-| ToolSearch | 2.1.69 | 2.1.69 | 1 | 0 | 0 | **removed** |
-| CronCreate | 2.1.72 | 2.1.232 | 136 | 2 | 2 | active |
-| CronDelete | 2.1.72 | 2.1.232 | 136 | 1 | 0 | active |
-| CronList | 2.1.72 | 2.1.232 | 136 | 1 | 0 | active |
-| ExitWorktree | 2.1.72 | 2.1.232 | 136 | 0 | 0 | active |
-| ScheduleWakeup | 2.1.101 | 2.1.232 | 112 | 3 | 1 | active |
-| ListMcpResourcesTool | 2.1.109 | 2.1.140 | 19 | 0 | 0 | **removed** |
-| ReadMcpResourceTool | 2.1.109 | 2.1.140 | 19 | 0 | 0 | **removed** |
-| TaskCreate | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
-| TaskGet | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
-| TaskList | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
-| TaskUpdate | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
-| Workflow | 2.1.154 | 2.1.232 | 69 | 8 | 0 | active |
-| SendMessage | 2.1.186 | 2.1.232 | 42 | 2 | 2 | active |
-| ReportFindings | 2.1.196 | 2.1.232 | 36 | 0 | 2 | active |
+| [Bash](tools/Bash.md) | 1.0.0 | 2.1.232 | 390 | 63 | 13 | active |
+| [Edit](tools/Edit.md) | 1.0.0 | 2.1.232 | 390 | 6 | 4 | active |
+| [Glob](tools/Glob.md) | 1.0.0 | 2.1.161 | 328 | 5 | 1 | **removed** |
+| [Grep](tools/Grep.md) | 1.0.0 | 2.1.161 | 328 | 3 | 7 | **removed** |
+| [LS](tools/LS.md) | 1.0.0 | 1.0.96 | 94 | 0 | 0 | **removed** |
+| [MultiEdit](tools/MultiEdit.md) | 1.0.0 | 1.0.128 | 121 | 2 | 1 | **removed** |
+| [NotebookEdit](tools/NotebookEdit.md) | 1.0.0 | 2.1.232 | 390 | 1 | 3 | active |
+| [NotebookRead](tools/NotebookRead.md) | 1.0.0 | 1.0.67 | 66 | 0 | 1 | **removed** |
+| [Read](tools/Read.md) | 1.0.0 | 2.1.232 | 390 | 12 | 3 | active |
+| [Task](tools/Task.md) | 1.0.0 | 2.1.62 | 247 | 35 | 10 | **removed** |
+| [TodoRead](tools/TodoRead.md) | 1.0.0 | 1.0.43 | 42 | 0 | 1 | **removed** |
+| [TodoWrite](tools/TodoWrite.md) | 1.0.0 | 2.1.141 | 310 | 6 | 4 | **removed** |
+| [WebFetch](tools/WebFetch.md) | 1.0.0 | 2.1.232 | 390 | 7 | 1 | active |
+| [WebSearch](tools/WebSearch.md) | 1.0.0 | 2.1.232 | 390 | 7 | 1 | active |
+| [Write](tools/Write.md) | 1.0.0 | 2.1.232 | 390 | 3 | 1 | active |
+| [exit_plan_mode](tools/exit_plan_mode.md) | 1.0.19 | 1.0.56 | 38 | 1 | 0 | **removed** |
+| [ExitPlanMode](tools/ExitPlanMode.md) | 1.0.57 | 2.1.186 | 294 | 8 | 11 | **removed** |
+| [BashOutput](tools/BashOutput.md) | 1.0.72 | 2.0.64 | 108 | 2 | 0 | **removed** |
+| [KillBash](tools/KillBash.md) | 1.0.72 | 1.0.112 | 36 | 0 | 0 | **removed** |
+| [KillShell](tools/KillShell.md) | 1.0.113 | 2.1.18 | 103 | 1 | 1 | **removed** |
+| [SlashCommand](tools/SlashCommand.md) | 1.0.122 | 2.0.72 | 72 | 5 | 0 | **removed** |
+| [Skill](tools/Skill.md) | 2.0.20 | 2.1.232 | 253 | 10 | 4 | active |
+| [EnterPlanMode](tools/EnterPlanMode.md) | 2.0.51 | 2.1.186 | 185 | 4 | 1 | **removed** |
+| [AgentOutputTool](tools/AgentOutputTool.md) | 2.0.60 | 2.0.64 | 5 | 0 | 0 | **removed** |
+| [TaskOutput](tools/TaskOutput.md) | 2.0.65 | 2.1.232 | 212 | 3 | 1 | active |
+| [AskUserQuestion](tools/AskUserQuestion.md) | 2.0.71 | 2.1.186 | 165 | 4 | 4 | **removed** |
+| [LSP](tools/LSP.md) | 2.0.74 | 2.0.77 | 4 | 0 | 1 | **removed** |
+| [TaskStop](tools/TaskStop.md) | 2.1.19 | 2.1.232 | 181 | 1 | 1 | active |
+| [EnterWorktree](tools/EnterWorktree.md) | 2.1.51 | 2.1.232 | 153 | 5 | 4 | active |
+| [Agent](tools/Agent.md) | 2.1.63 | 2.1.232 | 143 | 17 | 10 | active |
+| [ToolSearch](tools/ToolSearch.md) | 2.1.69 | 2.1.69 | 1 | 0 | 0 | **removed** |
+| [CronCreate](tools/CronCreate.md) | 2.1.72 | 2.1.232 | 136 | 2 | 2 | active |
+| [CronDelete](tools/CronDelete.md) | 2.1.72 | 2.1.232 | 136 | 1 | 0 | active |
+| [CronList](tools/CronList.md) | 2.1.72 | 2.1.232 | 136 | 1 | 0 | active |
+| [ExitWorktree](tools/ExitWorktree.md) | 2.1.72 | 2.1.232 | 136 | 0 | 0 | active |
+| [ScheduleWakeup](tools/ScheduleWakeup.md) | 2.1.101 | 2.1.232 | 112 | 3 | 1 | active |
+| [ListMcpResourcesTool](tools/ListMcpResourcesTool.md) | 2.1.109 | 2.1.140 | 19 | 0 | 0 | **removed** |
+| [ReadMcpResourceTool](tools/ReadMcpResourceTool.md) | 2.1.109 | 2.1.140 | 19 | 0 | 0 | **removed** |
+| [TaskCreate](tools/TaskCreate.md) | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
+| [TaskGet](tools/TaskGet.md) | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
+| [TaskList](tools/TaskList.md) | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
+| [TaskUpdate](tools/TaskUpdate.md) | 2.1.142 | 2.1.232 | 80 | 0 | 0 | active |
+| [Workflow](tools/Workflow.md) | 2.1.154 | 2.1.232 | 69 | 8 | 0 | active |
+| [SendMessage](tools/SendMessage.md) | 2.1.186 | 2.1.232 | 42 | 2 | 2 | active |
+| [ReportFindings](tools/ReportFindings.md) | 2.1.196 | 2.1.232 | 36 | 0 | 2 | active |
 
