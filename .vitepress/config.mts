@@ -17,7 +17,7 @@ export default withMermaid({
     'Every Claude Code system prompt, every version, both entrypoints — captured on the wire, byte-exact, diffable.',
   base: '/cc-sys-prompt-time-machine/',
   srcDir: '.',
-  srcExclude: ['sdk-capture/**', 'cli-capture/**', 'node_modules/**'],
+  srcExclude: ['capture/**', 'sdk-capture/**', 'cli-capture/**', 'node_modules/**'],
   // Generated docs link into the capture trees (excluded above) — those links resolve on GitHub,
   // which is where the byte-exact evidence lives. The site's own view of the bytes is the diff tool.
   // Prompts are quoted inside fenced code blocks, which VitePress renders v-pre, so there is no
@@ -47,8 +47,12 @@ export default withMermaid({
           for (const token of tokens) {
             if (token.type === 'link_open') {
               const href = token.attrGet('href') ?? ''
-              const match = href.match(/^(?:\.\.\/)*((?:cli|sdk)-capture\/.+)$/)
-              if (match) token.attrSet('href', REPO_BLOB + decodeURI(match[1]))
+              const match = href.match(/^(?:\.\.\/)*((?:(?:cli|sdk)-capture|capture\/(?:cli|sdk))\/.+)$/)
+              if (match) {
+                // Trees live at capture/{sdk,cli}; legacy flat names in older synced docs map there.
+                const path = decodeURI(match[1]).replace(/^sdk-capture\//, 'capture/sdk/').replace(/^cli-capture\//, 'capture/cli/')
+                token.attrSet('href', REPO_BLOB + path)
+              }
             }
             if (token.children) walk(token.children)
           }
