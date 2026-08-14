@@ -229,7 +229,8 @@ async function loadChangelog() {
   const capped = range.slice(-30)
   changelogTruncated.value = range.length > capped.length
   const entries = await Promise.all(capped.map(async v => ({ v, text: await fetchChangelog(v) })))
-  changelog.value = entries.filter((e): e is { v: string; text: string } => e.text !== null).reverse()
+  // Chronological, matching the label: the panel reads as "what happened between A and B".
+  changelog.value = entries.filter((e): e is { v: string; text: string } => e.text !== null)
 }
 watch([a, b], loadChangelog)
 </script>
