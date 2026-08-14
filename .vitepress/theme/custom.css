@@ -1,0 +1,12 @@
+/* The diff page is a working surface, not prose — give it the viewport. Applied via the
+   `pageClass: diff-page` frontmatter on diff.md. */
+.diff-page .VPDoc .container {
+  max-width: 100% !important;
+}
+.diff-page .VPDoc .content {
+  max-width: 100% !important;
+}
+.diff-page .VPDoc .content-container,
+.diff-page .vp-doc {
+  max-width: 1720px !important;
+}

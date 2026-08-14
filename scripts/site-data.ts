@@ -11,7 +11,7 @@
 
 import { mkdir, readdir, rm } from 'node:fs/promises'
 import { join } from 'node:path'
-import { familyOf, sectionsOf, compareVersions, type DiffRow } from '../.vitepress/lib/prompt.ts'
+import { familyOf, normalizePrompt, sectionsOf, compareVersions, type DiffRow } from '../.vitepress/lib/prompt.ts'
 
 const TREES = [
   { t: 'sdk' as const, dir: 'sdk-capture' },
@@ -58,6 +58,9 @@ for (const tree of TREES) {
       }
       row.sha = run.promptSha256
       row.b = run.promptBytes
+      const hasher = new Bun.CryptoHasher('sha256')
+      hasher.update(normalizePrompt(prompt))
+      row.n = hasher.digest('hex').slice(0, 12)
       row.f = familyOf(prompt, sectionsOf(prompt))
       const short = run.promptSha256.slice(0, 12)
       if (!written.has(short)) {

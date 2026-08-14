@@ -67,8 +67,10 @@ export type DiffRow = {
   sha?: string
   /** prompt bytes */
   b?: number
-  /** prompt family */
-  f?: string
+  /** prompt sha256 (full) — text lives at diff/texts/<sha12>.txt; absent on exclusions */
+  sha?: string
+  /** sha256 of the NORMALIZED prompt, first 12 hex — powers "identical after normalization" marks */
+  n?: string
   /** exclusion detail, trimmed */
   x?: string
 }

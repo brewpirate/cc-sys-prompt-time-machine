@@ -18,6 +18,7 @@ const texts = new Map<string, string>()
 const textA = ref<string | null>(null)
 const textB = ref<string | null>(null)
 const loading = ref(true)
+const loadError = ref<string | null>(null)
 
 const cell = (s: Side) => rows.value.find(r => r.t === s.t && r.v === s.v && r.m === s.m)
 const cellA = computed(() => cell(a))
@@ -28,6 +29,15 @@ function versions(t: string): string[] {
 }
 function models(s: Side): string[] {
   return [...new Set(rows.value.filter(r => r.t === s.t && r.v === s.v).map(r => r.m))].sort()
+}
+
+/** True when picking `v` on `side` would diff two identical prompts against the other side's cell —
+ * such options are disabled, which turns the version dropdown into a map of where changes happened. */
+function identicalPick(side: Side, v: string, other: DiffRow | undefined): boolean {
+  if (v === side.v || other?.sha === undefined) return false
+  const candidate = rows.value.find(r => r.t === side.t && r.v === v && r.m === side.m)
+  if (candidate?.sha === undefined) return false
+  return normalized.value ? candidate.n === other.n : candidate.sha === other.sha
 }
 
 async function fetchText(sha: string): Promise<string> {
@@ -109,10 +119,19 @@ const view = computed(() => {
     if (!part.added && !part.removed) {
       rows.push({ kind: 'same', text: part.value })
     } else if (part.removed && parts[i + 1]?.added) {
-      const words = diffWordsWithSpace(part.value, parts[i + 1].value)
-      const del = words.filter(w => !w.added).map(w => (w.removed ? `<del>${esc(w.value)}</del>` : esc(w.value))).join('')
-      const ins = words.filter(w => !w.removed).map(w => (w.added ? `<ins>${esc(w.value)}</ins>` : esc(w.value))).join('')
-      rows.push({ kind: 'change', left: del, right: ins })
+      const added = parts[i + 1]
+      // A pair where one side has no visible text is REALLY a one-sided change (the other part is
+      // whitespace) — word marks would render a strikethrough wall against an empty colored slab.
+      if (added.value.trim().length === 0) {
+        rows.push({ kind: 'change', left: esc(part.value), right: null })
+      } else if (part.value.trim().length === 0) {
+        rows.push({ kind: 'change', left: null, right: esc(added.value) })
+      } else {
+        const words = diffWordsWithSpace(part.value, added.value)
+        const del = words.filter(w => !w.added).map(w => (w.removed ? `<del>${esc(w.value)}</del>` : esc(w.value))).join('')
+        const ins = words.filter(w => !w.removed).map(w => (w.added ? `<ins>${esc(w.value)}</ins>` : esc(w.value))).join('')
+        rows.push({ kind: 'change', left: del, right: ins })
+      }
       i++
     } else if (part.removed) {
       rows.push({ kind: 'change', left: esc(part.value), right: null })
@@ -133,8 +152,15 @@ function context(text: string): string {
 }
 
 onMounted(async () => {
-  const res = await fetch(withBase('/diff/index.json'))
-  rows.value = (await res.json()).rows
+  try {
+    const res = await fetch(withBase('/diff/index.json'))
+    if (!res.ok) throw new Error(`${res.status} for diff/index.json`)
+    rows.value = (await res.json()).rows
+  } catch (error) {
+    loadError.value = `Capture index failed to load (${error instanceof Error ? error.message : String(error)}). If this is a local checkout, generate the data first: bun run data`
+    loading.value = false
+    return
+  }
   const list = versions('sdk')
   a.v = list.at(-2) ?? list.at(-1) ?? ''
   b.v = list.at(-1) ?? ''
@@ -152,7 +178,7 @@ watch([a, b, normalized], load)
         <span class="label">A</span>
         <select v-model="a.t"><option value="sdk">sdk (-p)</option><option value="cli">cli (interactive)</option></select>
         <button @click="step(a, -1)" title="previous version">‹</button>
-        <select v-model="a.v"><option v-for="v in versions(a.t)" :key="v" :value="v">{{ v }}</option></select>
+        <select v-model="a.v"><option v-for="v in versions(a.t)" :key="v" :value="v" :disabled="identicalPick(a, v, cellB)">{{ v }}{{ identicalPick(a, v, cellB) ? ' (=B)' : '' }}</option></select>
         <button @click="step(a, +1)" title="next version">›</button>
         <select v-model="a.m"><option v-for="m in models(a)" :key="m" :value="m">{{ m }}</option></select>
       </div>
@@ -160,7 +186,7 @@ watch([a, b, normalized], load)
         <span class="label">B</span>
         <select v-model="b.t"><option value="sdk">sdk (-p)</option><option value="cli">cli (interactive)</option></select>
         <button @click="step(b, -1)" title="previous version">‹</button>
-        <select v-model="b.v"><option v-for="v in versions(b.t)" :key="v" :value="v">{{ v }}</option></select>
+        <select v-model="b.v"><option v-for="v in versions(b.t)" :key="v" :value="v" :disabled="identicalPick(b, v, cellA)">{{ v }}{{ identicalPick(b, v, cellA) ? ' (=A)' : '' }}</option></select>
         <button @click="step(b, +1)" title="next version">›</button>
         <select v-model="b.m"><option v-for="m in models(b)" :key="m" :value="m">{{ m }}</option></select>
       </div>
@@ -207,6 +233,7 @@ watch([a, b, normalized], load)
       Select two captured cells to diff. Excluded cells show their exclusion cause instead — an honest hole, not a blank.
     </p>
   </div>
+  <p v-else-if="loadError" class="identical">{{ loadError }}</p>
   <p v-else>Loading capture index…</p>
 </template>
 

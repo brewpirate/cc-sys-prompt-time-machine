@@ -1,6 +1,8 @@
 ---
 title: Diff any two captures
 sidebar: false
+aside: false
+pageClass: diff-page
 ---
 
 # Diff any two captures
