@@ -60,12 +60,17 @@ function identicalSet(side: Side, other: DiffRow | undefined): Set<string> {
 const identicalA = computed(() => identicalSet(a, cellB.value))
 const identicalB = computed(() => identicalSet(b, cellA.value))
 
+/** Fetch a static data file, treating the dev server's SPA fallback (200 + text/html for any
+ * missing path) as absent — otherwise missing files render as raw HTML in the UI. */
+async function fetchStatic(path: string): Promise<string | null> {
+  const res = await fetch(withBase(path))
+  if (!res.ok || (res.headers.get('content-type') ?? '').includes('text/html')) return null
+  return await res.text()
+}
+
 async function fetchText(sha: string): Promise<string> {
   const key = sha.slice(0, 12)
-  if (!texts.has(key)) {
-    const res = await fetch(withBase(`/diff/texts/${key}.txt`))
-    texts.set(key, res.ok ? await res.text() : '')
-  }
+  if (!texts.has(key)) texts.set(key, (await fetchStatic(`/diff/texts/${key}.txt`)) ?? '')
   return texts.get(key)!
 }
 
@@ -206,10 +211,7 @@ function versionDocHref(v: string): string {
 }
 
 async function fetchChangelog(v: string): Promise<string | null> {
-  if (!changelogCache.has(v)) {
-    const res = await fetch(withBase(`/diff/changelog/${v}.txt`))
-    changelogCache.set(v, res.ok ? await res.text() : null)
-  }
+  if (!changelogCache.has(v)) changelogCache.set(v, await fetchStatic(`/diff/changelog/${v}.txt`))
   return changelogCache.get(v) ?? null
 }
 
