@@ -1,6 +1,6 @@
 # claude-opus-5
 
-Generated 2026-08-13 by `bun run models` — regenerate, don't edit. Spine: sdk-cli tree.
+Generated 2026-08-14 by `bun run models` — regenerate, don't edit. Spine: sdk-cli tree.
 
 | | |
 | --- | --- |
@@ -11,18 +11,21 @@ Generated 2026-08-13 by `bun run models` — regenerate, don't edit. Spine: sdk-
 
 ## Entrypoint comparison — interactive (cli) vs headless (sdk-cli)
 
-92 versions captured in both trees (2.1.0 → 2.1.229), grouped into runs by family pair and section divergence:
+267 versions captured in both trees (1.0.3 → 2.1.229), grouped into runs by family pair and section divergence:
 
 | versions | dates | family cli / sdk | cli-only sections | sdk-only sections | Δ bytes (cli−sdk) |
 | --- | --- | --- | --- | --- | --- |
-| 2.1.0 – 2.1.12 | 2026-01-07 → 2026-01-17 | claude-code / sdk-legacy | — | — | -5 |
+| 1.0.3 – 1.0.16 | 2025-05-23 → 2025-06-06 | claude-code / claude-code | — | — | +0 |
+| 2.0.0 – 2.0.33 | 2025-09-29 → 2025-11-04 | claude-code / sdk-legacy | — | — | -5 |
+| 2.0.34 – 2.0.70 | 2025-11-05 → 2025-12-15 | claude-code / sdk-legacy | `Asking questions as you work` | — | +293 … +417 |
+| 2.0.71 – 2.1.15 | 2025-12-16 → 2026-01-21 | claude-code / sdk-legacy | — | — | -5 |
 | 2.1.16 – 2.1.52 | 2026-01-22 → 2026-02-24 | claude-code / sdk-legacy | — | `Task Management` | -2457 … -2450 |
-| 2.1.53 – 2.1.149 | 2026-02-24 → 2026-05-22 | claude-code / sdk-legacy | — | — | -289 … +260 |
+| 2.1.53 – 2.1.153 | 2026-02-24 → 2026-05-27 | claude-code / sdk-legacy | — | — | -289 … +260 |
 | 2.1.154 – 2.1.229 | 2026-05-28 → 2026-08-12 | harness / harness | — | — | +253 |
 
 **Parity verdict at 2.1.229: no doctrinal divergence.** Section sets identical; Δ +253B is the known surface delta (identity line, `!`-prefix tip, shell fact).
 
-Interactive holes — honest exclusions, not gaps: 1.0.0 (model-remapped → claude-3-5-haiku-20241022).
+Interactive holes — honest exclusions, not gaps: 1.0.0 (model-remapped → claude-opus-4-20250514), 1.0.17 (model-remapped → claude-sonnet-4-20250514), 1.0.18 (model-remapped → claude-sonnet-4-20250514), 1.0.19 (model-remapped → claude-sonnet-4-20250514), 1.0.20 (model-remapped → claude-sonnet-4-20250514), 1.0.21 (model-remapped → claude-sonnet-4-20250514), 1.0.22 (model-remapped → claude-sonnet-4-20250514), 1.0.23 (model-remapped → claude-sonnet-4-20250514), 1.0.24 (model-remapped → claude-sonnet-4-20250514), 1.0.25 (model-remapped → claude-sonnet-4-20250514), 1.0.26 (model-remapped → claude-sonnet-4-20250514), 1.0.27 (model-remapped → claude-sonnet-4-20250514), 1.0.28 (model-remapped → claude-sonnet-4-20250514), 1.0.29 (model-remapped → claude-sonnet-4-20250514), 1.0.30 (model-remapped → claude-sonnet-4-20250514), 1.0.31 (model-remapped → claude-sonnet-4-20250514), 1.0.32 (model-remapped → claude-sonnet-4-20250514), 1.0.33 (model-remapped → claude-sonnet-4-20250514), 1.0.34 (model-remapped → claude-sonnet-4-20250514), 1.0.35 (model-remapped → claude-sonnet-4-20250514), 1.0.36 (model-remapped → claude-sonnet-4-20250514), 1.0.37 (model-remapped → claude-sonnet-4-20250514), 1.0.38 (model-remapped → claude-sonnet-4-20250514), 1.0.39 (model-remapped → claude-sonnet-4-20250514), 1.0.40 (model-remapped → claude-sonnet-4-20250514), 1.0.41 (model-remapped → claude-sonnet-4-20250514), 1.0.42 (model-remapped → claude-sonnet-4-20250514), 1.0.43 (model-remapped → claude-sonnet-4-20250514), 1.0.44 (model-remapped → claude-sonnet-4-20250514), 2.0.18 (model-remapped → claude-haiku-4-5-20251001), 2.0.19 (model-remapped → claude-haiku-4-5-20251001), 2.0.22 (model-remapped → claude-haiku-4-5-20251001), 2.0.24 (model-remapped → claude-haiku-4-5-20251001), 2.0.25 (model-remapped → claude-haiku-4-5-20251001), 2.0.63 (model-remapped → claude-sonnet-4-5-20250929).
 
 ## Prompt timeline
 

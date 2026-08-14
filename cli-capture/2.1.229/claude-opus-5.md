@@ -1,6 +1,6 @@
 ---
 status: "captured"
-capture_date: "2026-08-13T15:11:26.779Z"
+capture_date: "2026-08-13T22:25:39.916Z"
 cli_version: "2.1.229"
 requested_model: "claude-opus-5"
 model_id: "claude-opus-5"
